@@ -4,25 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root_container"
-    tools:context=".ui.authentication.LoginFragment">
-
-
-    <!-- <androidx.appcompat.widget.Toolbar
-         android:id="@+id/toolbar_login"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:background="#FFFFFF"
-         app:title="Business Paragon"
-         app:titleTextColor="#000000" />
-
-             <ImageView
-         android:id="@+id/icon_image"
-         android:layout_centerHorizontal="true"
-         android:layout_marginTop="20dp"
-         android:layout_width="60dp"
-         android:layout_height="60dp"
-         android:src="@drawable/ic_baseline_android_24" />-->
+    tools:context=".ui.authentication.SignUpFragment"
+    android:background="@color/white"
+    android:clickable="true">
 
     <com.google.android.material.imageview.ShapeableImageView
         app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
@@ -32,7 +16,7 @@
         android:layout_width="100dp"
         android:id="@+id/icon_image"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="13dp"
         android:src="@drawable/ic_baseline_android_24"
         />
 
@@ -42,42 +26,41 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/icon_image"
-        android:layout_marginTop="20dp"
-        android:text="Business Paragon"
+        android:layout_marginTop="13dp"
+        android:text="Sign Up"
         android:textColor="@color/colorBackground"
         android:textStyle="bold"
         android:textSize="25sp" />
 
-
-    <!-- <TextView
-         android:id="@+id/login"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/title"
-         android:layout_marginLeft="20dp"
-         android:layout_marginTop="5dp"
-         android:text="Log In"
-         android:textColor="@color/colorAccent"
-         android:textSize="17sp" />-->
-
     <EditText
-
-        android:id="@+id/email"
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
+        android:drawablePadding="10dp"
+        android:hint="Username"
+        android:inputType="text"
+        android:paddingBottom="20dp">
+    </EditText>
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/username"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="11dp"
         android:drawablePadding="10dp"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:paddingBottom="20dp">
     </EditText>
 
-
     <EditText
-
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,60 +73,56 @@
         android:hint="Password"
         android:inputType="textPassword" />
 
-    <TextView
-
-        android:id="@+id/forgot_password"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/phone_number"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/password"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="5dp"
-        android:text="Forgot Password?"
-        android:textColor="#8F8686"
-        android:textSize="12dp" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="20dp"
+        android:drawablePadding="10dp"
+        android:paddingBottom="20dp"
+        android:hint="Phone number"
+        android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/phone_number"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="20dp"
+        android:drawablePadding="10dp"
+        android:paddingBottom="20dp"
+        android:hint="Address"
+        android:inputType="textPostalAddress" />
 
     <Button
 
-        android:id="@+id/login_button"
+        android:id="@+id/sign_up_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@+id/forgot_password"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/address"
+        android:layout_marginTop="25dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="Log In"
+        android:text="Sign Up"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         android:textAllCaps="false"
         android:background="#00008b"
         android:enabled="false"/>
 
-
-
     <TextView
-
-        android:id="@+id/sign_up"
+        android:id="@+id/agreement_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_button"
+        android:layout_below="@+id/sign_up_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="17dp"
         android:textColor="#8F8686"
         android:textSize="15dp" />
 
-    <!-- <RadioButton
-
-         android:id="@+id/remember_password"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/forgot_password"
-         android:layout_marginTop="40dp"
-         android:layout_marginLeft="20dp"
-         android:layout_marginRight="20dp"
-         android:text="Remember Password"
-         android:textSize="12dp"
-         android:checked="false"/>-->
-
-
 </RelativeLayout>
-

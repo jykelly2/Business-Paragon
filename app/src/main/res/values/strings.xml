@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BusinessParagon</string>
+    <!-- validation error -->
+    <string name="required">required</string>
 </resources>

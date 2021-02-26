@@ -1,31 +1,25 @@
 package sheridan.yamazaki.businessparagon
 
-import android.util.Log
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.annotation.SuppressLint
-import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.MotionEvent
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
-import sheridan.yamazaki.businessparagon.databinding.ActivityMainBinding
-import androidx.core.graphics.drawable.DrawableCompat
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // setSupportActionBar(findViewById(R.id.toolbar))
+    }
+}
+
    // private lateinit var toolbar: Toolbar
 
-    @SuppressLint("ClickableViewAccessibility")
+  /*
+   private lateinit var binding: ActivityMainBinding
+   @SuppressLint("ClickableViewAccessibility")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -43,16 +37,26 @@ class MainActivity : AppCompatActivity() {
 
         val text = "Don't have an account? Sign up"
         val spannableString = SpannableString(text)
+        val signUpFragment = SignUpFragment()
 
-        val clickableSpan3: ClickableSpan = object : ClickableSpan() {
+        val signUpClickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                Toast.makeText(this@MainActivity, "Clicked", Toast.LENGTH_SHORT).show()
+                //findNavController().navigate(R.id.action_input_to_output)
+                if(savedInstanceState == null) {
+                    // initial transaction should be wrapped like this
+                    binding.loginButton.isEnabled = false
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.root_container, signUpFragment)
+                        .commitAllowingStateLoss()
+                }
+              //  Toast.makeText(this@MainActivity, "Clicked", Toast.LENGTH_SHORT).show()
             }
         }
-        spannableString.setSpan(clickableSpan3, 23, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(signUpClickableSpan, 23, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.signUp.setText(spannableString, TextView.BufferType.SPANNABLE)
         binding.signUp.movementMethod = LinkMovementMethod.getInstance()
 
+        binding.loginButton.setOnClickListener {loginClicked()}
 
         binding.email.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int)
@@ -189,14 +193,10 @@ class MainActivity : AppCompatActivity() {
 
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int)
         {
-
-
         }
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int)
         {
-
-
         }
 
         override fun afterTextChanged(s: Editable)
@@ -209,12 +209,24 @@ class MainActivity : AppCompatActivity() {
             if (t)
             {
                 binding.loginButton.setBackgroundResource(R.color.colordarkblue)
+                binding.loginButton.isEnabled = true
             }
             else
             {
+                binding.loginButton.isEnabled = false
                 binding.loginButton.setBackgroundResource(R.color.colorwhiteblueshade)
             }
+        }
+    }
 
+    private fun loginClicked(){
+        Log.d("userjj", "here")
+        if (binding.email.text.toString().trim() == "test" && binding.password.text.toString().trim() == "test"){
+            val intent = Intent(this, BrowseActivity::class.java)
+          //  intent.putExtra(DOG_INFO, dogInfo)
+            startActivity(intent)
+        }else{
+            Toast.makeText(this@MainActivity, "User doesn't exist! Please change username or password", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -233,4 +245,4 @@ class MainActivity : AppCompatActivity() {
             binding.loginButton.setBackgroundResource(R.color.colorwhiteblueshade)
         }
     }
-}
+}*/

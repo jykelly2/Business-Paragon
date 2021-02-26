@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/loginFragment">
+    <fragment
+        android:id="@+id/fragment_signup"
+        android:name="sheridan.yamazaki.businessparagon.ui.authentication.SignUpFragment"
+        android:label="Sign Up"
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_signup_to_browse"
+            app:destination="@id/browse_activity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/browse_activity"
+        android:name="sheridan.yamazaki.businessparagon.ui.authentication.SignUpFragment"
+        android:label="BrowseActivity"
+        tools:layout="@layout/activity_business"/>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="sheridan.yamazaki.businessparagon.ui.authentication.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_login_to_signup"
+            app:destination="@id/fragment_signup" />
+    </fragment>
+</navigation>

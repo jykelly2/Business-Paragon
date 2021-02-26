@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/ic_explore"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Explore"/>
+
+    <item android:id="@+id/ic_near_me"
+        android:icon="@drawable/ic_baseline_near_me_24"
+        android:title="Near Me"/>
+
+    <item android:id="@+id/ic_favourites"
+        android:icon="@drawable/ic_baseline_favorite_24"
+        android:title="Favourites"/>
+
+    <item android:id="@+id/ic_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="Settings"/>
+
+</menu>

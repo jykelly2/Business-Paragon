@@ -1,13 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+   <com.google.android.material.appbar.AppBarLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:theme="@style/Theme.BusinessParagon.AppBarOverlay">
 
-   <!-- <androidx.appcompat.widget.Toolbar
+
+
+   </com.google.android.material.appbar.AppBarLayout>
+
+   <include layout="@layout/content_main" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+<!--<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_container"
+    tools:context=".MainActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +42,7 @@
         android:layout_marginTop="20dp"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_baseline_android_24" />-->
+        android:src="@drawable/ic_baseline_android_24" />
 
  <com.google.android.material.imageview.ShapeableImageView
      app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
@@ -48,7 +69,7 @@
         android:textSize="25sp" />
 
 
-   <!-- <TextView
+    <TextView
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +78,7 @@
         android:layout_marginTop="5dp"
         android:text="Log In"
         android:textColor="@color/colorAccent"
-        android:textSize="17sp" />-->
+        android:textSize="17sp" />
 
     <EditText
 
@@ -130,7 +151,7 @@
         android:textColor="#8F8686"
         android:textSize="15dp" />
 
-   <!-- <RadioButton
+    <RadioButton
 
         android:id="@+id/remember_password"
         android:layout_width="wrap_content"
@@ -141,8 +162,8 @@
         android:layout_marginRight="20dp"
         android:text="Remember Password"
         android:textSize="12dp"
-        android:checked="false"/>-->
+        android:checked="false"/>
 
 
-</RelativeLayout>
+</RelativeLayout>-->
 
