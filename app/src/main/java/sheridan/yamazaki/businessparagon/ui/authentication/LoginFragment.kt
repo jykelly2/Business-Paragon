@@ -241,17 +241,6 @@ class LoginFragment : Fragment() {
             }
             false
         })
-
-        /*  binding.rememberPassword.setOnClickListener(View.OnClickListener {
-
-              if (!(binding.rememberPassword.isSelected)) {
-                  binding.rememberPassword.isChecked = true
-                  binding.rememberPassword.isSelected = true
-              } else {
-                  binding.rememberPassword.isChecked = false
-                  binding.rememberPassword.isSelected = false
-              }
-          })*/
         return binding.root
     }
 
@@ -264,12 +253,7 @@ class LoginFragment : Fragment() {
         }
 
         override fun afterTextChanged(s: Editable) {
-            val mUsername: String = binding.email.text.toString().trim()
-            val mPassword: String = binding.password.text.toString().trim()
-            //Log.d("user", mUsername)
-            //  Log.d("user", mPassword)
-            val t = mUsername.isNotEmpty() && mPassword.isNotEmpty()
-            if (t) {
+            if (validateInput()) {
                 binding.loginButton.setBackgroundResource(R.color.colordarkblue)
                 binding.loginButton.isEnabled = true
             } else {
@@ -294,21 +278,20 @@ class LoginFragment : Fragment() {
                  Toast.LENGTH_SHORT
              ).show()
         }
+    }
 
-
+    fun validateInput(): Boolean{
+        val mEmail: String = binding.email.text.toString().trim()
+        val mPassword: String = binding.password.text.toString().trim()
+        return  mEmail.isNotEmpty() && mPassword.isNotEmpty()
     }
 
     override fun onStart() {
         super.onStart()
-        val mUsername: String = binding.email.text.toString().trim()
-        val mPassword: String = binding.password.text.toString().trim()
-        val t = mUsername.isNotEmpty() && mPassword.isNotEmpty()
-        if (t) {
+        if (validateInput()) {
             binding.loginButton.setBackgroundResource(R.color.colordarkblue)
         } else {
             binding.loginButton.setBackgroundResource(R.color.colorwhiteblueshade)
         }
-
-
     }
 }

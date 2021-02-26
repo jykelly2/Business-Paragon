@@ -18,9 +18,14 @@ import android.text.TextWatcher
 import android.view.MotionEvent
 import android.widget.TextView
 import android.content.Intent
+import android.widget.Toast
 import androidx.core.graphics.drawable.DrawableCompat
 import sheridan.yamazaki.businessparagon.BusinessActivity
 import sheridan.yamazaki.businessparagon.R
+import sheridan.yamazaki.businessparagon.model.User
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
 
 class SignUpFragment : Fragment(){
 
@@ -369,14 +374,7 @@ class SignUpFragment : Fragment(){
 
         override fun afterTextChanged(s: Editable)
         {
-            val mUsername: String = binding.username.text.toString().trim()
-            val mEmail: String = binding.email.text.toString().trim()
-            val mPassword: String = binding.password.text.toString().trim()
-            val mPhoneNumber: String = binding.phoneNumber.text.toString().trim()
-            val mAddress: String = binding.address.text.toString().trim()
-
-            val t = mUsername.isNotEmpty() && mEmail.isNotEmpty() && mPassword.isNotEmpty() && mPhoneNumber.isNotEmpty() && mAddress.isNotEmpty()
-            if (t)
+            if (validateInput())
             {
                 binding.signUpButton.setBackgroundResource(R.color.colordarkblue)
                 binding.signUpButton.isEnabled = true
@@ -391,24 +389,45 @@ class SignUpFragment : Fragment(){
     }
 
     private fun signUpClicked(){
-        requireActivity().run{
-            startActivity(Intent(this, BusinessActivity::class.java))
-            finish()
+        if (validateInput()) {
+            val user = createUserObj()
+            requireActivity().run {
+                startActivity(Intent(this, BusinessActivity::class.java))
+                finish()
+            }
+        }else{
+            Toast.makeText(
+                getActivity(),
+                "Please fill out all the inputs!",
+                Toast.LENGTH_SHORT
+            ).show()
         }
         //findNavController().navigate(R.id.action_signup_to_browse)
     }
 
-    override fun onStart()
-    {
-        super.onStart()
+    fun validateInput(): Boolean{
+        val mUsername: String = binding.username.text.toString().trim()
+        val mEmail: String = binding.email.text.toString().trim()
+        val mPassword: String = binding.password.text.toString().trim()
+        val mPhoneNumber: String = binding.phoneNumber.text.toString().trim()
+        val mAddress: String = binding.address.text.toString().trim()
+        return mUsername.isNotEmpty() && mEmail.isNotEmpty() && mPassword.isNotEmpty() && mPhoneNumber.isNotEmpty() && mAddress.isNotEmpty()
+    }
+
+    fun createUserObj(): User {
         val mUsername: String = binding.username.text.toString().trim()
         val mEmail: String = binding.email.text.toString().trim()
         val mPassword: String = binding.password.text.toString().trim()
         val mPhoneNumber: String = binding.phoneNumber.text.toString().trim()
         val mAddress: String = binding.address.text.toString().trim()
 
-        val t = mUsername.isNotEmpty() && mEmail.isNotEmpty() && mPassword.isNotEmpty() && mPhoneNumber.isNotEmpty() && mAddress.isNotEmpty()
-        if (t)
+        return User(mUsername, mEmail, mPassword, mPhoneNumber, mAddress, "", 0,0, Date())
+    }
+
+    override fun onStart()
+    {
+        super.onStart()
+        if (validateInput())
         {
             binding.signUpButton.setBackgroundResource(R.color.colordarkblue)
         }
