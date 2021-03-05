@@ -27,4 +27,10 @@
             android:id="@+id/action_login_to_signup"
             app:destination="@id/fragment_signup" />
     </fragment>
+    <fragment
+        android:id="@+id/exploreFragment"
+        android:name="sheridan.yamazaki.businessparagon.ui.list.BusinessListFragment"
+        android:label="@string/appbar_scrolling_view_behavior"
+        tools:layout="@layout/business_list_fragment">
+    </fragment>
 </navigation>

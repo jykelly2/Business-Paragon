@@ -4,15 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
-import kotlinx.android.synthetic.main.activity_business.*
 import sheridan.yamazaki.businessparagon.databinding.ActivityBusinessBinding
-import sheridan.yamazaki.businessparagon.ui.business.ExploreFragment
+import sheridan.yamazaki.businessparagon.ui.list.BusinessListFragment
 import sheridan.yamazaki.businessparagon.ui.business.FavouritesFragment
 import sheridan.yamazaki.businessparagon.ui.business.NearMeFragment
 import sheridan.yamazaki.businessparagon.ui.business.SettingsFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BusinessActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBusinessBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +22,7 @@ class BusinessActivity : AppCompatActivity() {
 
         binding = ActivityBusinessBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val exploreFragment = ExploreFragment()
+        val exploreFragment = BusinessListFragment()
         val favouritesFragment = FavouritesFragment()
         val settingsFragment = SettingsFragment()
         val nearMeFragment = NearMeFragment()

@@ -2,4 +2,7 @@
     <string name="app_name">BusinessParagon</string>
     <!-- validation error -->
     <string name="required">required</string>
+    <!-- the list fragment -->
+    <string name="count">%1$d.</string>
+    <string name="not_implemented">This feature is not implemented yet.</string>
 </resources>

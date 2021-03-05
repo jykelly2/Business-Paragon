@@ -20,9 +20,11 @@ import android.text.TextWatcher
 import android.view.MotionEvent
 import android.widget.TextView
 import android.content.Intent
+import android.util.Log
 import androidx.core.graphics.drawable.DrawableCompat
 import sheridan.yamazaki.businessparagon.BusinessActivity
 import sheridan.yamazaki.businessparagon.R
+import sheridan.yamazaki.businessparagon.model.Business
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
@@ -272,7 +274,7 @@ class LoginFragment : Fragment() {
                 finish()
             }
         } else {
-             Toast.makeText(
+            Toast.makeText(
                  getActivity(),
                  "User doesn't exist! Please change username or password",
                  Toast.LENGTH_SHORT

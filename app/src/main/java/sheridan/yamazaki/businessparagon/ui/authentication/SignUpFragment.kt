@@ -414,7 +414,7 @@ class SignUpFragment : Fragment(){
         return mUsername.isNotEmpty() && mEmail.isNotEmpty() && mPassword.isNotEmpty() && mPhoneNumber.isNotEmpty() && mAddress.isNotEmpty()
     }
 
-    fun createUserObj(): User {
+    private fun createUserObj(): User {
         val mUsername: String = binding.username.text.toString().trim()
         val mEmail: String = binding.email.text.toString().trim()
         val mPassword: String = binding.password.text.toString().trim()
