@@ -2,6 +2,8 @@ package sheridan.yamazaki.businessparagon
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.View
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,6 +14,7 @@ class MainActivity : AppCompatActivity() {
 
         // setSupportActionBar(findViewById(R.id.toolbar))
     }
+
 }
 
    // private lateinit var toolbar: Toolbar

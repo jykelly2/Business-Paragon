@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import sheridan.yamazaki.businessparagon.R
 import sheridan.yamazaki.businessparagon.databinding.BusinessListItemBinding
 import sheridan.yamazaki.businessparagon.model.Business
@@ -36,13 +37,20 @@ class BusinessListAdapter(
             //val resources = binding.root.resources
 
             // Load image
-//            Glide.with(binding.restaurantItemImage.context)
-//                    .load(restaurant.photo)
-//                    .into(binding.restaurantItemImage)
+       //     Glide.with(binding.businessLogo.context)
+            //        .load(business.logo)
+            //        .into(binding.businessLogo)
 
             binding.business = business
-            binding.businessLogo.setImageResource(R.drawable.ic_launcher_background)
-            binding.businessName.text = business.name
+            if (business.logo != ""){
+                Glide.with(binding.root)
+                        .load(business.logo)
+                        .into(binding.businessLogo)
+            }else{
+                binding.businessLogo.setImageResource(R.drawable.ic_launcher_background)
+            }
+
+          //  binding.businessName.text = business.name
             binding.root.setOnClickListener { onClick(business) }
             binding.executePendingBindings()
         }

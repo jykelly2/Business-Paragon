@@ -27,13 +27,11 @@ class BusinessActivity : AppCompatActivity() {
         val settingsFragment = SettingsFragment()
         val nearMeFragment = NearMeFragment()
 
-        makeCurrentFragment(favouritesFragment)
-        Log.d("menuta", "it.itemId.toString()")
+        makeCurrentFragment(exploreFragment)
 
         //val navController = findNavController(R.id.fl_wrapper)
         //binding.bottomNavigation.setupWithNavController(navController)
        binding.bottomNavigation.setOnNavigationItemSelectedListener {it ->
-           Log.d("menuta", it.itemId.toString())
            when (it.itemId){
                R.id.ic_explore -> {makeCurrentFragment(exploreFragment)}
                R.id.ic_favourites -> {makeCurrentFragment(favouritesFragment)}

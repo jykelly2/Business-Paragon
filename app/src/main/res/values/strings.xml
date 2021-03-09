@@ -2,7 +2,23 @@
     <string name="app_name">BusinessParagon</string>
     <!-- validation error -->
     <string name="required">required</string>
+
+    <!-- Fragment names -->
+    <string name="explore_fragment">Explore</string>
+
+    <!-- Actions -->
+    <string name="action_share">Share</string>
+    <string name="action_favourite">Favourite</string>
+    <string name="action_explore">Explore</string>
+    <string name="add_favourite">Add favourite</string>
+
+    <!-- the search hint -->
+    <string name="search_hint">Search for business or product</string>
+
     <!-- the list fragment -->
+
     <string name="count">%1$d.</string>
     <string name="not_implemented">This feature is not implemented yet.</string>
+
+
 </resources>

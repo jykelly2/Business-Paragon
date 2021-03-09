@@ -41,11 +41,11 @@ class BusinessRepositoryImpl @Inject constructor(
 
     fun createDummyBusinesses(): LiveData<List<Business>> {
         val list3 = listOf(
-        Business("Loblaw","Grocery", "loblaws.ca", "647-666-666", "123 Main st. Mississauga", "image", 1),
-        Business("Walmart","Grocery", "walmart.ca", "416-555-666", "55 Queen st. Oakville", "image", 2),
-        Business("Best Buy","Electronics", "bestbuy.ca", "647-999-999", "89 Jarvis st. Toronto", "image", 3),
-        Business("Burger King","Restaurant", "burgerking.ca", "647-123-123", "899 King st. Mississauga", "image", 4),
-        Business("Nandos","Restaurant", "nandos.ca", "416-455-213", "13 Brittania. Mississauga", "image", 5))
+        Business("Loblaw","Grocery", "loblaws.ca", "647-666-666", "123 Main st. Mississauga", "https://img.huffingtonpost.com/asset/5e1512f2250000ffddd3214c.jpeg?cache=jOcO5DLOgn&ops=1200_630", 1),
+        Business("Walmart","Grocery", "walmart.ca", "416-555-666", "55 Queen st. Oakville", "https://www.supermarketnews.com/sites/supermarketnews.com/files/styles/article_featured_retina/public/Walmart_Canada_supercenter_exterior.png?itok=lVSg6uOM", 2),
+        Business("Best Buy","Electronics", "bestbuy.ca", "647-999-999", "89 Jarvis st. Toronto", "https://www.retail-insider.com/wp-content/uploads/2020/11/1280x720-1068x601.jpg", 3),
+        Business("Burger King","Restaurant", "burgerking.ca", "647-123-123", "899 King st. Mississauga", "https://b.zmtcdn.com/data/pictures/chains/5/16500625/9b0d338b5e4a9f82e5c2609df4592864_featured_v2.jpg?fit=around|771.75:416.25&crop=771.75:416.25;*,*", 4),
+        Business("Nandos","Restaurant", "nandos.ca", "416-455-213", "13 Brittania. Mississauga", "https://d1ralsognjng37.cloudfront.net/ea6e9704-2eba-4bb7-b74a-4f0f7cfcca53.jpeg", 5))
 
         return  MutableLiveData(list3)
 
