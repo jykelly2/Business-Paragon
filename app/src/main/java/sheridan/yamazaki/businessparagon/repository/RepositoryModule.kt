@@ -14,4 +14,8 @@ abstract class RepositoryModule {
     abstract fun bindBusinessRepository(
             repository: BusinessRepositoryImpl): BusinessRepository
 
+    @Binds
+    abstract fun bindUserRepository(
+        repository: UserRepositoryImpl): UserRepository
+
 }

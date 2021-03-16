@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
 import sheridan.yamazaki.businessparagon.R
 import sheridan.yamazaki.businessparagon.databinding.BusinessListFragmentBinding
@@ -26,6 +27,7 @@ class BusinessListFragment : Fragment() {
        inflater: LayoutInflater, container: ViewGroup?,
        savedInstanceState: Bundle?
    ): View? {
+       //this?.context?.let { FirebaseApp.initializeApp(it) }
         binding = BusinessListFragmentBinding.inflate(inflater, container, false)
 
         val adapter = BusinessListAdapter(onClick = {
@@ -33,12 +35,12 @@ class BusinessListFragment : Fragment() {
         })
 
         binding.recyclerBusinesses.adapter = adapter
-      //  binding.lifecycleOwner = viewLifecycleOwner
-        //binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
-       viewModel.businesses.observe(viewLifecycleOwner){
+       /*viewModel.businesses.observe(viewLifecycleOwner){
            adapter?.submitList(it)
-        }
+        }*/
         return binding.root
     }
 

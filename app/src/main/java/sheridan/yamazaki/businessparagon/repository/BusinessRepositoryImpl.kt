@@ -1,20 +1,20 @@
 package sheridan.yamazaki.businessparagon.repository
 
+//import sheridan.yamazaki.businessparagon.util.RestaurantUtil
+//import com.google.firebase.ktx.Firebase
+
 import android.app.Application
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-//import sheridan.yamazaki.businessparagon.firestore.FirestoreCollectionLiveData
-//import sheridan.yamazaki.businessparagon.firestore.FirestoreDocumentLiveData
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import sheridan.yamazaki.businessparagon.firestore.FirestoreCollectionLiveData
 import sheridan.yamazaki.businessparagon.model.Business
-//import sheridan.yamazaki.businessparagon.util.RatingUtil
-//import sheridan.yamazaki.businessparagon.util.RestaurantUtil
-//import com.google.firebase.firestore.*
-//import com.google.firebase.firestore.ktx.firestore
-//import com.google.firebase.firestore.ktx.toObject
-//import com.google.firebase.ktx.Firebase
 import javax.inject.Inject
+
 
 class BusinessRepositoryImpl @Inject constructor(
     private val application: Application
@@ -25,21 +25,21 @@ class BusinessRepositoryImpl @Inject constructor(
         private const val LIMIT = 50
     }
 
-   /* private val firestore = Firebase.firestore
-    private val collection = firestore.collection("restaurants")
-    private val query = collection.orderBy("avgRating", Query.Direction.DESCENDING)
-        .limit(LIMIT.toLong())*/
+    //lateinit var firestore: FirebaseFirestore
+    private val firestore = Firebase.firestore//FirebaseFirestore.getInstance()
+    private val collection = firestore.collection("businesses")
+    private val query = collection.orderBy("name", Query.Direction.DESCENDING)
+        .limit(LIMIT.toLong())
 
     override fun getAllBusiness(): LiveData<List<Business>> {
-        return createDummyBusinesses()
-       // return FirestoreCollectionLiveData(query, Business::class.java)
+        return FirestoreCollectionLiveData(query, Business::class.java)
     }
 
     /*override fun getBusiness(id: String): LiveData<Business> {
         //return FirestoreDocumentLiveData(collection.document(id), Business::class.java)
     }*/
 
-    fun createDummyBusinesses(): LiveData<List<Business>> {
+   /* fun createDummyBusinesses(): LiveData<List<Business>> {
         val list3 = listOf(
         Business("Loblaw","Grocery", "loblaws.ca", "647-666-666", "123 Main st. Mississauga", "https://img.huffingtonpost.com/asset/5e1512f2250000ffddd3214c.jpeg?cache=jOcO5DLOgn&ops=1200_630", 1),
         Business("Walmart","Grocery", "walmart.ca", "416-555-666", "55 Queen st. Oakville", "https://www.supermarketnews.com/sites/supermarketnews.com/files/styles/article_featured_retina/public/Walmart_Canada_supercenter_exterior.png?itok=lVSg6uOM", 2),
@@ -49,7 +49,7 @@ class BusinessRepositoryImpl @Inject constructor(
 
         return  MutableLiveData(list3)
 
-    }
+    }*/
 
     override fun loadRandomData() {
         Log.d("j", "k")

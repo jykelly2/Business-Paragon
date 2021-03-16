@@ -20,6 +20,8 @@ import android.widget.TextView
 import android.content.Intent
 import android.widget.Toast
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import sheridan.yamazaki.businessparagon.BusinessActivity
 import sheridan.yamazaki.businessparagon.R
 import sheridan.yamazaki.businessparagon.model.User
@@ -27,9 +29,11 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
+@AndroidEntryPoint
 class SignUpFragment : Fragment(){
 
     private lateinit var binding: FragmentSignupBinding
+    private val viewModel: UserViewModel by viewModels()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -49,7 +53,12 @@ class SignUpFragment : Fragment(){
         binding.phoneNumber.addTextChangedListener(loginTextWatcher)
         binding.address.addTextChangedListener(loginTextWatcher)
 
-        binding.signUpButton.setOnClickListener {signUpClicked()}
+        binding.signUpButton.setOnClickListener {
+            if (validateInput()) {
+                val user = createUserObj()
+                viewModel.addUser(user = user)
+            }
+            signUpClicked()}
 
         val text = "By signing up, you agree with the \nTerms of Service & Privacy Policy"
         val spannableString = SpannableString(text)
@@ -390,7 +399,8 @@ class SignUpFragment : Fragment(){
 
     private fun signUpClicked(){
         if (validateInput()) {
-            val user = createUserObj()
+            //val user = createUserObj()
+           // viewModel.addUser(user = user)
             requireActivity().run {
                 startActivity(Intent(this, BusinessActivity::class.java))
                 finish()

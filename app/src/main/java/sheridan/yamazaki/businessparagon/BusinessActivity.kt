@@ -4,21 +4,26 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
 import sheridan.yamazaki.businessparagon.databinding.ActivityBusinessBinding
 import sheridan.yamazaki.businessparagon.ui.list.BusinessListFragment
 import sheridan.yamazaki.businessparagon.ui.business.FavouritesFragment
 import sheridan.yamazaki.businessparagon.ui.business.NearMeFragment
 import sheridan.yamazaki.businessparagon.ui.business.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
+import sheridan.yamazaki.businessparagon.firestore.FirestoreActivity
 
 @AndroidEntryPoint
 class BusinessActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityBusinessBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-      //  binding = BrowseActivityBinding.inflate(layoutInflater)
-        //setContentView(binding.root)
-      // setContentView(R.layout.browse_activity)
+       // FirebaseApp.initializeApp(this)
+       // FirebaseApp.initializeApp(this.applicationContext)
+        //FirebaseApp.initializeApp(this.parent)
 
         binding = ActivityBusinessBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "19595891167",
+    "project_id": "businessparagon-7b22a",
+    "storage_bucket": "businessparagon-7b22a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19595891167:android:da0bd329f29026841a346a",
+        "android_client_info": {
+          "package_name": "sheridan.yamazaki.businessparagon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19595891167-v23v2fa1oluevm96b65pi0apk03dfv8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6mfiUtamAyXrz3lQtBtu-0Z1MpTkNvag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19595891167-v23v2fa1oluevm96b65pi0apk03dfv8h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
