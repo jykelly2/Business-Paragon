@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/exploreFragment"
-        android:name="sheridan.yamazaki.businessparagon.ui.list.BusinessListFragment"
+        android:name="sheridan.yamazaki.businessparagon.ui.business.list.BusinessListFragment"
         android:label="@string/appbar_scrolling_view_behavior"
         tools:layout="@layout/business_list_fragment">
     </fragment>

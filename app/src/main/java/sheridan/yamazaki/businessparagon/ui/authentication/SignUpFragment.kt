@@ -21,6 +21,9 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.viewModels
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import sheridan.yamazaki.businessparagon.BusinessActivity
 import sheridan.yamazaki.businessparagon.R
@@ -32,6 +35,7 @@ import java.util.*
 @AndroidEntryPoint
 class SignUpFragment : Fragment(){
 
+    private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentSignupBinding
     private val viewModel: UserViewModel by viewModels()
 
@@ -40,6 +44,8 @@ class SignUpFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        auth = Firebase.auth
+
         binding = FragmentSignupBinding.inflate(inflater, container, false)
         binding.username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_person_24, 0, 0, 0)
         binding.email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_email_24, 0, 0, 0)
@@ -53,12 +59,7 @@ class SignUpFragment : Fragment(){
         binding.phoneNumber.addTextChangedListener(loginTextWatcher)
         binding.address.addTextChangedListener(loginTextWatcher)
 
-        binding.signUpButton.setOnClickListener {
-            if (validateInput()) {
-                val user = createUserObj()
-                viewModel.addUser(user = user)
-            }
-            signUpClicked()}
+        binding.signUpButton.setOnClickListener { signUpClicked()}
 
         val text = "By signing up, you agree with the \nTerms of Service & Privacy Policy"
         val spannableString = SpannableString(text)
@@ -399,20 +400,40 @@ class SignUpFragment : Fragment(){
 
     private fun signUpClicked(){
         if (validateInput()) {
-            //val user = createUserObj()
-           // viewModel.addUser(user = user)
-            requireActivity().run {
-                startActivity(Intent(this, BusinessActivity::class.java))
-                finish()
-            }
-        }else{
+            val user = createUserObj()
+            createAccount(user)
+            //viewModel.addUser(user = user)
+        }
+        else{
             Toast.makeText(
                 getActivity(),
                 "Please fill out all the inputs!",
                 Toast.LENGTH_SHORT
             ).show()
         }
-        //findNavController().navigate(R.id.action_signup_to_browse)
+    }
+
+    private fun createAccount(user: User) {
+        // [START create_user_with_email]
+        auth.createUserWithEmailAndPassword(user.email, user.password)
+                .addOnCompleteListener(requireActivity()) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d("jugga", "createUserWithEmail:success")
+                        val authUserId = auth.currentUser.uid
+                        Log.d("jugga", authUserId)
+                        user.id = authUserId
+                        viewModel.addUser(user)
+                        startBusinessActivity()
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.d("jugga", "createUserWithEmail:failure", task.exception)
+                        Toast.makeText(requireActivity(), "Authentication failed.",
+                                Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+        // [END create_user_with_email]
     }
 
     fun validateInput(): Boolean{
@@ -444,6 +465,13 @@ class SignUpFragment : Fragment(){
         else
         {
             binding.signUpButton.setBackgroundResource(R.color.colorwhiteblueshade)
+        }
+    }
+
+    private fun startBusinessActivity(){
+        requireActivity().run {
+            startActivity(Intent(this, BusinessActivity::class.java))
+            finish()
         }
     }
 

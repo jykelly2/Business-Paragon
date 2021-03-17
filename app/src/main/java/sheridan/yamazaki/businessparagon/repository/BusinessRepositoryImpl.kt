@@ -28,7 +28,7 @@ class BusinessRepositoryImpl @Inject constructor(
     //lateinit var firestore: FirebaseFirestore
     private val firestore = Firebase.firestore//FirebaseFirestore.getInstance()
     private val collection = firestore.collection("businesses")
-    private val query = collection.orderBy("name", Query.Direction.DESCENDING)
+    private val query = collection.orderBy("name", Query.Direction.ASCENDING)
         .limit(LIMIT.toLong())
 
     override fun getAllBusiness(): LiveData<List<Business>> {

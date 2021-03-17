@@ -1,7 +1,6 @@
-package sheridan.yamazaki.businessparagon.ui.list
+package sheridan.yamazaki.businessparagon.ui.business.list
 
 import androidx.hilt.lifecycle.ViewModelInject
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import sheridan.yamazaki.businessparagon.model.Business

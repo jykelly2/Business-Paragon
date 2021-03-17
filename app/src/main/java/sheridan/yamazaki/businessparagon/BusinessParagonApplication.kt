@@ -12,9 +12,4 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class BusinessParagonApplication : Application(){
-  /*  override fun onCreate() {
-        super.onCreate()
-        FirebaseFirestore.setLoggingEnabled(true)
-        FirebaseApp.initializeApp(this.applicationContext)
-    }*/
 }

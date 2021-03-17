@@ -20,9 +20,8 @@ class FavouritesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        activity?.actionBar?.hide()
         binding = FragmentFavouritesBinding.inflate(inflater, container, false)
+        activity?.actionBar?.hide()
         return binding.root
     }
 

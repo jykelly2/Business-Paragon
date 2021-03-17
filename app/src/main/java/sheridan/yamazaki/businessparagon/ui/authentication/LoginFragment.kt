@@ -22,18 +22,28 @@ import android.widget.TextView
 import android.content.Intent
 import android.util.Log
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import sheridan.yamazaki.businessparagon.BusinessActivity
 import sheridan.yamazaki.businessparagon.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import sheridan.yamazaki.businessparagon.model.Business
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
+
+    private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentLoginBinding
+    private val viewModel: UserViewModel by viewModels()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        auth = Firebase.auth
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.email.setCompoundDrawablesRelativeWithIntrinsicBounds(
             R.drawable.ic_baseline_email_24,
@@ -266,20 +276,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun loginClicked() {
-        if (binding.email.text.toString().trim() == "test" && binding.password.text.toString()
-                .trim() == "test"
-        ) {
-            requireActivity().run {
-                startActivity(Intent(this, BusinessActivity::class.java))
-                finish()
-            }
-        } else {
-            Toast.makeText(
-                 getActivity(),
-                 "User doesn't exist! Please change username or password",
-                 Toast.LENGTH_SHORT
-             ).show()
-        }
+        signIn(binding.email.text.toString().trim(), binding.password.text.toString().trim())
     }
 
     fun validateInput(): Boolean{
@@ -290,10 +287,42 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        val currentUser = auth.currentUser
+        if(currentUser != null){
+            startBusinessActivity()
+        }
+
         if (validateInput()) {
             binding.loginButton.setBackgroundResource(R.color.colordarkblue)
         } else {
             binding.loginButton.setBackgroundResource(R.color.colorwhiteblueshade)
+        }
+    }
+
+
+    private fun signIn(email: String, password: String) {
+        // [START sign_in_with_email]
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(requireActivity()) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d("jugga", "signInWithEmail:success")
+                        val user = auth.currentUser
+                        startBusinessActivity()
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w("jugga", "signInWithEmail:failure", task.exception)
+                        Toast.makeText(getActivity(), "Authentication failed.",
+                                Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+    }
+
+    private fun startBusinessActivity(){
+        requireActivity().run {
+            startActivity(Intent(this, BusinessActivity::class.java))
+            finish()
         }
     }
 }

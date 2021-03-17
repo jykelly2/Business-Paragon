@@ -1,14 +1,12 @@
-package sheridan.yamazaki.businessparagon.ui.list
+package sheridan.yamazaki.businessparagon.ui.business.list
 
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
 import sheridan.yamazaki.businessparagon.R
 import sheridan.yamazaki.businessparagon.databinding.BusinessListFragmentBinding
