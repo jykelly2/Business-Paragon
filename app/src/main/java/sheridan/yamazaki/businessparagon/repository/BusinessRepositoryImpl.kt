@@ -12,6 +12,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import sheridan.yamazaki.businessparagon.firestore.FirestoreCollectionLiveData
+import sheridan.yamazaki.businessparagon.firestore.FirestoreDocumentLiveData
 import sheridan.yamazaki.businessparagon.model.Business
 import javax.inject.Inject
 
@@ -25,21 +26,20 @@ class BusinessRepositoryImpl @Inject constructor(
         private const val LIMIT = 50
     }
 
-    //lateinit var firestore: FirebaseFirestore
-    private val firestore = Firebase.firestore//FirebaseFirestore.getInstance()
+    private val firestore = Firebase.firestore
     private val collection = firestore.collection("businesses")
     private val query = collection.orderBy("name", Query.Direction.ASCENDING)
-        .limit(LIMIT.toLong())
+            .limit(LIMIT.toLong())
 
     override fun getAllBusiness(): LiveData<List<Business>> {
         return FirestoreCollectionLiveData(query, Business::class.java)
     }
 
-    /*override fun getBusiness(id: String): LiveData<Business> {
-        //return FirestoreDocumentLiveData(collection.document(id), Business::class.java)
-    }*/
+    override fun getBusiness(id: String): LiveData<Business> {
+        return FirestoreDocumentLiveData(collection.document(id), Business::class.java)
+    }
 
-   /* fun createDummyBusinesses(): LiveData<List<Business>> {
+    /* fun createDummyBusinesses(): LiveData<List<Business>> {
         val list3 = listOf(
         Business("Loblaw","Grocery", "loblaws.ca", "647-666-666", "123 Main st. Mississauga", "https://img.huffingtonpost.com/asset/5e1512f2250000ffddd3214c.jpeg?cache=jOcO5DLOgn&ops=1200_630", 1),
         Business("Walmart","Grocery", "walmart.ca", "416-555-666", "55 Queen st. Oakville", "https://www.supermarketnews.com/sites/supermarketnews.com/files/styles/article_featured_retina/public/Walmart_Canada_supercenter_exterior.png?itok=lVSg6uOM", 2),
@@ -50,36 +50,6 @@ class BusinessRepositoryImpl @Inject constructor(
         return  MutableLiveData(list3)
 
     }*/
+}
 
-    override fun loadRandomData() {
-        Log.d("j", "k")
-    }
-    }
-    /*override fun loadRandomData() {
-        // Add a bunch of random restaurants
-        val batch = firestore.batch()
-        for (i in 0..9) {
-            val restRef = firestore.collection("restaurants").document()
 
-            // Create random restaurant / ratings
-            val randomRestaurant = RestaurantUtil.getRandom(application)
-            val randomRatings = RatingUtil.getRandomList(randomRestaurant.numRatings)
-            randomRestaurant.avgRating = RatingUtil.getAverageRating(randomRatings)
-
-            // Add restaurant
-            batch.set(restRef, randomRestaurant)
-
-            // Add ratings to sub-collection
-            for (rating in randomRatings) {
-                batch.set(restRef.collection("ratings").document(), rating)
-            }
-        }
-
-        batch.commit().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d(TAG, "Write batch succeeded.")
-            } else {
-                Log.w(TAG, "write batch failed.", task.exception)
-            }
-        }
-    }*/

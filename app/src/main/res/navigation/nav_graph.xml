@@ -4,33 +4,66 @@
     android:id="@+id/nav_graph"
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/loginFragment">
-    <fragment
-        android:id="@+id/fragment_signup"
-        android:name="sheridan.yamazaki.businessparagon.ui.authentication.SignUpFragment"
-        android:label="Sign Up"
-        tools:layout="@layout/fragment_signup">
-        <action
-            android:id="@+id/action_signup_to_browse"
-            app:destination="@id/browse_activity" />
-    </fragment>
 
-    <fragment
-        android:id="@+id/browse_activity"
-        android:name="sheridan.yamazaki.businessparagon.ui.authentication.SignUpFragment"
-        android:label="BrowseActivity"
-        tools:layout="@layout/activity_business"/>
     <fragment
         android:id="@+id/loginFragment"
         android:name="sheridan.yamazaki.businessparagon.ui.authentication.LoginFragment"
         android:label="LoginFragment" >
         <action
-            android:id="@+id/action_login_to_signup"
-            app:destination="@id/fragment_signup" />
+            android:id="@+id/action_login_to_signUp"
+            app:destination="@id/signUpFragment" />
     </fragment>
+
     <fragment
-        android:id="@+id/exploreFragment"
-        android:name="sheridan.yamazaki.businessparagon.ui.business.list.BusinessListFragment"
-        android:label="@string/appbar_scrolling_view_behavior"
-        tools:layout="@layout/business_list_fragment">
+        android:id="@+id/signUpFragment"
+        android:name="sheridan.yamazaki.businessparagon.ui.authentication.SignUpFragment"
+        android:label="Sign Up"
+        tools:layout="@layout/fragment_signup">
     </fragment>
+
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="sheridan.yamazaki.businessparagon.ui.business.FavouritesFragment"
+        android:label="FavouriteFragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nearMeFragment"
+        android:name="sheridan.yamazaki.businessparagon.ui.business.NearMeFragment"
+        android:label="NearMeFragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="sheridan.yamazaki.businessparagon.ui.business.SettingsFragment"
+        android:label="settingsFragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/businessListFragment"
+        android:name="sheridan.yamazaki.businessparagon.ui.business.list.BusinessListFragment"
+        android:label="@string/business_list"
+        tools:layout="@layout/business_list_fragment">
+        <action
+            android:id="@+id/action_business_list_to_detail"
+            app:destination="@id/businessDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/businessDetailFragment"
+        android:name="sheridan.yamazaki.businessparagon.ui.business.detail.BusinessDetailFragment"
+        android:label="@string/business_details"
+        tools:layout="@layout/business_detail_fragment" >
+        <argument
+            android:name="businessId"
+            app:argType="string" />
+    </fragment>
+
+    <activity
+        android:id="@+id/businessActivity"
+        android:name="sheridan.yamazaki.businessparagon.BusinessActivity"
+        android:label="activity_business"
+        tools:layout="@layout/activity_business">
+    </activity>
+
 </navigation>

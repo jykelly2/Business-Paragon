@@ -9,13 +9,10 @@ import sheridan.yamazaki.businessparagon.model.Business
 @Module
 @InstallIn(ApplicationComponent::class)
 abstract class RepositoryModule {
-
     @Binds
     abstract fun bindBusinessRepository(
             repository: BusinessRepositoryImpl): BusinessRepository
-
     @Binds
     abstract fun bindUserRepository(
         repository: UserRepositoryImpl): UserRepository
-
 }

@@ -32,10 +32,6 @@ class BusinessListAdapter(
             //val resources = binding.root.resources
 
             // Load image
-       //     Glide.with(binding.businessLogo.context)
-            //        .load(business.logo)
-            //        .into(binding.businessLogo)
-
             binding.business = business
             if (business.logo != ""){
                 Glide.with(binding.root)
@@ -44,8 +40,6 @@ class BusinessListAdapter(
             }else{
                 binding.businessLogo.setImageResource(R.drawable.ic_launcher_background)
             }
-
-          //  binding.businessName.text = business.name
             binding.root.setOnClickListener { onClick(business) }
             binding.executePendingBindings()
         }

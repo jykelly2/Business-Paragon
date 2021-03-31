@@ -6,6 +6,10 @@
     <!-- Fragment names -->
     <string name="explore_fragment">Explore</string>
 
+    <!-- Strings used for fragments for navigation -->
+    <string name="business_details">Business Details</string>
+    <string name="business_list">Business List</string>
+
     <!-- Actions -->
     <string name="action_share">Share</string>
     <string name="action_favourite">Favourite</string>

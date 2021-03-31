@@ -23,6 +23,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import dagger.hilt.android.AndroidEntryPoint
 import sheridan.yamazaki.businessparagon.BusinessActivity
 import sheridan.yamazaki.businessparagon.R
@@ -30,13 +31,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import sheridan.yamazaki.businessparagon.model.Business
+import sheridan.yamazaki.businessparagon.ui.business.list.BusinessListFragmentDirections
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentLoginBinding
-    private val viewModel: UserViewModel by viewModels()
+    lateinit var navController: NavController
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -44,6 +46,9 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         auth = Firebase.auth
+
+        navController = findNavController()
+
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.email.setCompoundDrawablesRelativeWithIntrinsicBounds(
             R.drawable.ic_baseline_email_24,
@@ -69,7 +74,7 @@ class LoginFragment : Fragment() {
 
         val signUpClickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                findNavController().navigate(R.id.action_login_to_signup)
+                findNavController().navigate(R.id.action_login_to_signUp)
                 //  Toast.makeText(this@MainActivity, "Clicked", Toast.LENGTH_SHORT).show()
             }
         }
@@ -324,5 +329,8 @@ class LoginFragment : Fragment() {
             startActivity(Intent(this, BusinessActivity::class.java))
             finish()
         }
+        //val action = LoginFragmentDirections.actionLoginToBusinessList()
+       // findNavController().navigate(R.id.action_login_to_business_list)
+        //navController.navigate(action)
     }
 }

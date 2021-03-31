@@ -41,7 +41,7 @@ class UserRepositoryImpl @Inject constructor(
         return FirestoreDocumentLiveData(collection.document(id), User::class.java)
     }
 
-    override fun checkUser(username:String, password: String): LiveData<User> {
+   /* override fun checkUser(username:String, password: String): LiveData<User> {
         Log.d(TAG, "herheh")
 
         val query = collection
@@ -50,7 +50,7 @@ class UserRepositoryImpl @Inject constructor(
 
         return FirestoreDocumentLiveData(query.result!!.documents[0]!!.reference!!
                 , User::class.java)
-    }
+    }*/
 
     override suspend fun insert(
         user: User

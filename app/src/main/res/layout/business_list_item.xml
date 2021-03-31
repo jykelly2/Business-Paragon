@@ -23,8 +23,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
-
                     <ImageView
                         android:id="@+id/business_logo"
                         android:layout_width="match_parent"

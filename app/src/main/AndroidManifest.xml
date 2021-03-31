@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-        <activity android:name=".BusinessActivity"></activity>
+        <activity android:name=".BusinessActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">></activity>
         <activity android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
