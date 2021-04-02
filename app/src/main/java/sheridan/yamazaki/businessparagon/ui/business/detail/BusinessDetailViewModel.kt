@@ -11,7 +11,6 @@ import sheridan.yamazaki.businessparagon.repository.BusinessRepository
 class BusinessDetailViewModel @ViewModelInject constructor(
         private val repository: BusinessRepository
 ): ViewModel() {
-
     private val businessId = MutableLiveData<String>()
 
     val business: LiveData<Business> =

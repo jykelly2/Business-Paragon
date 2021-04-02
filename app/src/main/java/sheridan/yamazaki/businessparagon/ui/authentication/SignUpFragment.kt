@@ -66,13 +66,13 @@ class SignUpFragment : Fragment(){
 
         val termsClickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-              Log.d("termss", "terms")
+              Log.d("termsClicked", "terms")
             }
         }
 
         val privacyClickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                Log.d("termss", "privacy")
+                Log.d("termsClicked", "privacy")
             }
         }
 
@@ -402,7 +402,6 @@ class SignUpFragment : Fragment(){
         if (validateInput()) {
             val user = createUserObj()
             createAccount(user)
-            //viewModel.addUser(user = user)
         }
         else{
             Toast.makeText(
@@ -419,21 +418,17 @@ class SignUpFragment : Fragment(){
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d("jugga", "createUserWithEmail:success")
                         val authUserId = auth.currentUser.uid
-                        Log.d("jugga", authUserId)
                         user.id = authUserId
                         viewModel.addUser(user)
                         startBusinessActivity()
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.d("jugga", "createUserWithEmail:failure", task.exception)
+                        Log.d("signInFail", "createUserWithEmail:failure", task.exception)
                         Toast.makeText(requireActivity(), "Authentication failed.",
                                 Toast.LENGTH_SHORT).show()
-
                     }
                 }
-        // [END create_user_with_email]
     }
 
     fun validateInput(): Boolean{

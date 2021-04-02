@@ -27,29 +27,13 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BusinessActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityBusinessBinding
-    private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityBusinessBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-       /*  val navHostFragment =
-          supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-      navController = navHostFragment.navController
-      appBarConfiguration = AppBarConfiguration(navController.graph)
-      setupActionBarWithNavController(navController, appBarConfiguration)*/
-
-       /* val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        val navController = findNavController(R.id.fragment)
-
-        bottomNavigationView.setupWithNavController(navController)*/
-
 
         val exploreFragment = BusinessListFragment()
         val favouritesFragment = FavouritesFragment()
@@ -69,28 +53,38 @@ class BusinessActivity : AppCompatActivity() {
        }
     }
 
-   /* override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
-    }*/
-
-
-
-    /*override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.search_menu, menu)
-        return true
-    }
-    private fun navigate (name : String) {
-        findNavController(R.id.businessListFragment).navigate(R.id.action_businessActivity_to_businessListFragment)
-
-    }*/
-
     private fun makeCurrentFragment(fragment : Fragment) =
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fl_wrapper, fragment)
             commit()
      }
 }
+/*  val navHostFragment =
+       supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+   navController = navHostFragment.navController
+   appBarConfiguration = AppBarConfiguration(navController.graph)
+   setupActionBarWithNavController(navController, appBarConfiguration)*/
+
+/* val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+ val navController = findNavController(R.id.fragment)
+
+ bottomNavigationView.setupWithNavController(navController)*/
+
+/* override fun onSupportNavigateUp(): Boolean {
+      val navController = findNavController(R.id.nav_host_fragment)
+      return navController.navigateUp(appBarConfiguration)
+              || super.onSupportNavigateUp()
+  }*/
+
+
+
+/*override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    super.onCreateOptionsMenu(menu)
+    menuInflater.inflate(R.menu.search_menu, menu)
+    return true
+}
+private fun navigate (name : String) {
+    findNavController(R.id.businessListFragment).navigate(R.id.action_businessActivity_to_businessListFragment)
+
+}*/

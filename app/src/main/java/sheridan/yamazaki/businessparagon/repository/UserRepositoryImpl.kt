@@ -30,27 +30,12 @@ class UserRepositoryImpl @Inject constructor(
         private const val LIMIT = 50
     }
 
-    private val firestore = Firebase.firestore//FirebaseFirestore.getInstance()
+    private val firestore = Firebase.firestore
     private val collection = firestore.collection("users")
-
-    /*override fun getAllUsers(): LiveData<List<User>> {
-        return FirestoreCollectionLiveData(query, User::class.java)
-    }*/
 
     override fun getUser(id: String): LiveData<User> {
         return FirestoreDocumentLiveData(collection.document(id), User::class.java)
     }
-
-   /* override fun checkUser(username:String, password: String): LiveData<User> {
-        Log.d(TAG, "herheh")
-
-        val query = collection
-                .whereEqualTo("username", username)
-                .whereEqualTo("password", password).limit(1).get()
-
-        return FirestoreDocumentLiveData(query.result!!.documents[0]!!.reference!!
-                , User::class.java)
-    }*/
 
     override suspend fun insert(
         user: User
@@ -66,3 +51,11 @@ class UserRepositoryImpl @Inject constructor(
 
 }
 
+/* override fun checkUser(username:String, password: String): LiveData<User> {
+     val query = collection
+             .whereEqualTo("username", username)
+             .whereEqualTo("password", password).limit(1).get()
+
+     return FirestoreDocumentLiveData(query.result!!.documents[0]!!.reference!!
+             , User::class.java)
+ }*/

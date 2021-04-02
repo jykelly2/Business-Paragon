@@ -63,10 +63,8 @@ class LoginFragment : Fragment() {
             0
         )
 
-
         binding.email.addTextChangedListener(loginTextWatcher)
         binding.password.addTextChangedListener(loginTextWatcher)
-
 
         val text = "Don't have an account? Sign up"
         val spannableString = SpannableString(text)
@@ -75,7 +73,6 @@ class LoginFragment : Fragment() {
         val signUpClickableSpan: ClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 findNavController().navigate(R.id.action_login_to_signUp)
-                //  Toast.makeText(this@MainActivity, "Clicked", Toast.LENGTH_SHORT).show()
             }
         }
         spannableString.setSpan(signUpClickableSpan, 23, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -157,11 +154,9 @@ class LoginFragment : Fragment() {
 
         binding.password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
             }
 
             @SuppressLint("UseCompatLoadingForDrawables")
@@ -311,12 +306,11 @@ class LoginFragment : Fragment() {
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d("jugga", "signInWithEmail:success")
                         val user = auth.currentUser
                         startBusinessActivity()
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.w("jugga", "signInWithEmail:failure", task.exception)
+                        Log.w("SignInFail", "signInWithEmail:failure", task.exception)
                         Toast.makeText(getActivity(), "Authentication failed.",
                                 Toast.LENGTH_SHORT).show()
 
@@ -329,8 +323,5 @@ class LoginFragment : Fragment() {
             startActivity(Intent(this, BusinessActivity::class.java))
             finish()
         }
-        //val action = LoginFragmentDirections.actionLoginToBusinessList()
-       // findNavController().navigate(R.id.action_login_to_business_list)
-        //navController.navigate(action)
     }
 }

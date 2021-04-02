@@ -16,19 +16,19 @@ class UserViewModel @ViewModelInject constructor(
     private val userId = MutableLiveData<String>()
     val user: LiveData<User> =  userId.switchMap{ repository.getUser(it) }
 
-    //val userExistance = MutableLiveData<Boolean>()
-
-    /*fun checkExistingUser(username: String, password: String) : LiveData<User>{
-       // viewModelScope.launch(Dispatchers.IO){
-        Log.d("jugga", repository.checkUser(username, password).toString())
-         return repository.checkUser(username, password)
-        //userExistance.value = repository.checkUser(username, password).value
-       // }
-    }*/
-
     fun addUser(user: User){
         viewModelScope.launch(Dispatchers.IO){
                 repository.insert(user)
         }
     }
 }
+
+//val userExistance = MutableLiveData<Boolean>()
+
+/*fun checkExistingUser(username: String, password: String) : LiveData<User>{
+   // viewModelScope.launch(Dispatchers.IO){
+    Log.d("jugga", repository.checkUser(username, password).toString())
+     return repository.checkUser(username, password)
+    //userExistance.value = repository.checkUser(username, password).value
+   // }
+}*/

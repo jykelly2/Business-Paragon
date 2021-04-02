@@ -25,10 +25,6 @@ class BusinessListFragment : Fragment() {
     private val firebaseAnalytics = Firebase.analytics
     private lateinit var binding: BusinessListFragmentBinding
     private val viewModel: BusinessListViewModel by viewModels()
-    private val detailViewModel: BusinessDetailViewModel by viewModels()
-    lateinit var navController: NavController
-
-   // private val adapter: BusinessListAdapter?=null
 
    // var items = List<Business>()
     //val displayList = ArrayList<Business>()
@@ -38,11 +34,7 @@ class BusinessListFragment : Fragment() {
    ): View? {
         binding = BusinessListFragmentBinding.inflate(inflater, container, false)
 
-
         val adapter = BusinessListAdapter(onClick = {
-            //val action = BusinessListFragmentDirections.actionBusinessListToDetail(it.id!!)
-            // navController.navigate(action)
-            // detailViewModel.loadData(it.id!!)
             logAnalyticsEvent(it)
             startBusinessDetailFragment(it.id!!)
             Log.d("clicked", (viewModel.businesses.value?.size ?: 0).toString())
@@ -63,6 +55,7 @@ class BusinessListFragment : Fragment() {
             param("name", business.name.toString())
             param("id", business.id.toString())
             param("category", business.category.toString())
+            param("city", business.city.toString())
         }
     }
 
@@ -79,13 +72,6 @@ class BusinessListFragment : Fragment() {
         }
     }
 
-    private fun notImplemented() {
-        Snackbar.make(
-                binding.root,
-                getString(R.string.not_implemented),
-                Snackbar.LENGTH_LONG
-        ).show()
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -99,7 +85,6 @@ class BusinessListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AppCompatActivity).supportActionBar?.show()
-       // navController = Navigation.findNavController(view)
     }
 
     private fun startSearch(search: String){
@@ -109,23 +94,3 @@ class BusinessListFragment : Fragment() {
         }
     }
 }
-
-/*import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import sheridan.yamazaki.businessparagon.databinding.FragmentExploreBinding
-import sheridan.yamazaki.businessparagon.databinding.FragmentLoginBinding
-
-class ExploreFragment : Fragment() {
-    private lateinit var binding: FragmentExploreBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentExploreBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-}*/

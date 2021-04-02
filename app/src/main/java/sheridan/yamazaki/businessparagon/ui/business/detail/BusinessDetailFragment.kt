@@ -15,15 +15,11 @@ class BusinessDetailFragment: Fragment() {
 
     private lateinit var binding: BusinessDetailFragmentBinding
     private val viewModel: BusinessDetailViewModel by viewModels()
-   // private val safeArgs: BusinessDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-       // val navController = findNavController()
-        //viewModel.loadData(safeArgs.businessId)
-
         val id = requireArguments().getString("id")
 
         if (id != null) {
