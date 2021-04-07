@@ -21,6 +21,8 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.viewModels
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -38,6 +40,7 @@ class SignUpFragment : Fragment(){
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentSignupBinding
     private val viewModel: UserViewModel by viewModels()
+    private val firebaseAnalytics = Firebase.analytics
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -402,6 +405,7 @@ class SignUpFragment : Fragment(){
         if (validateInput()) {
             val user = createUserObj()
             createAccount(user)
+            logAnalyticsEvent()
         }
         else{
             Toast.makeText(
@@ -412,8 +416,13 @@ class SignUpFragment : Fragment(){
         }
     }
 
+    private fun logAnalyticsEvent(){
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.METHOD, "sign_up_method")
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle)
+    }
+
     private fun createAccount(user: User) {
-        // [START create_user_with_email]
         auth.createUserWithEmailAndPassword(user.email, user.password)
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {

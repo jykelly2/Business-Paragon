@@ -24,6 +24,8 @@ import android.util.Log
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
 import dagger.hilt.android.AndroidEntryPoint
 import sheridan.yamazaki.businessparagon.BusinessActivity
 import sheridan.yamazaki.businessparagon.R
@@ -39,6 +41,7 @@ class LoginFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentLoginBinding
     lateinit var navController: NavController
+    private val firebaseAnalytics = Firebase.analytics
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -277,6 +280,7 @@ class LoginFragment : Fragment() {
 
     private fun loginClicked() {
         signIn(binding.email.text.toString().trim(), binding.password.text.toString().trim())
+        logAnalyticsEvent()
     }
 
     fun validateInput(): Boolean{
@@ -290,6 +294,7 @@ class LoginFragment : Fragment() {
         val currentUser = auth.currentUser
         if(currentUser != null){
             startBusinessActivity()
+            logAnalyticsEvent()
         }
 
         if (validateInput()) {
@@ -299,9 +304,14 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun logAnalyticsEvent(){
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.METHOD, "login_in_method")
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle)
+    }
+
 
     private fun signIn(email: String, password: String) {
-        // [START sign_in_with_email]
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {

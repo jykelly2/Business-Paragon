@@ -6,14 +6,16 @@ package sheridan.yamazaki.businessparagon.repository
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
-import com.google.android.gms.tasks.OnCompleteListener
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.tasks.await
 import sheridan.yamazaki.businessparagon.firestore.FirestoreCollectionLiveData
 import sheridan.yamazaki.businessparagon.firestore.FirestoreDocumentLiveData
 import sheridan.yamazaki.businessparagon.model.Business
+import sheridan.yamazaki.businessparagon.model.Layout
 import javax.inject.Inject
 
 
@@ -37,6 +39,13 @@ class BusinessRepositoryImpl @Inject constructor(
 
     override fun getBusiness(id: String): LiveData<Business> {
         return FirestoreDocumentLiveData(collection.document(id), Business::class.java)
+    }
+
+    override suspend fun getBusinessLayout(id: String, layoutName: String): LiveData<Layout> {
+        val design = collection.document(id).collection("design")
+                .whereEqualTo("name", layoutName).limit(1).get().await().documents[0].toObject<Layout>()
+
+        return MutableLiveData(design)
     }
 
     /* fun createDummyBusinesses(): LiveData<List<Business>> {

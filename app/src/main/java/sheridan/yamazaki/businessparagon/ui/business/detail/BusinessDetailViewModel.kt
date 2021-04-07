@@ -1,11 +1,12 @@
 package sheridan.yamazaki.businessparagon.ui.business.detail
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.switchMap
+import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import sheridan.yamazaki.businessparagon.model.Business
+import sheridan.yamazaki.businessparagon.model.Layout
 import sheridan.yamazaki.businessparagon.repository.BusinessRepository
 
 class BusinessDetailViewModel @ViewModelInject constructor(
@@ -19,4 +20,14 @@ class BusinessDetailViewModel @ViewModelInject constructor(
     fun loadData(id: String){
         businessId.value = id
     }
+
+    var layout = MutableLiveData<String>()
+
+    fun returnLayout(id: String, layoutName: String)  {
+        viewModelScope.launch(Dispatchers.IO){
+            val design = repository.getBusinessLayout(id, layoutName)
+            layout.postValue(design.value?.layout)
+        }
+    }
+
 }
