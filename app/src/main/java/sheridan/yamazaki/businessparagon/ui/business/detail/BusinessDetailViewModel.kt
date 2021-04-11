@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sheridan.yamazaki.businessparagon.model.Business
 import sheridan.yamazaki.businessparagon.model.Layout
+import sheridan.yamazaki.businessparagon.model.Product
 import sheridan.yamazaki.businessparagon.repository.BusinessRepository
 
 class BusinessDetailViewModel @ViewModelInject constructor(
@@ -21,12 +22,15 @@ class BusinessDetailViewModel @ViewModelInject constructor(
         businessId.value = id
     }
 
-    var layout = MutableLiveData<String>()
+    val products: LiveData<List<Product>> =
+            businessId.switchMap{ repository.getBusinessProducts(it) }
+
+    var layout = MutableLiveData<Layout>()
 
     fun returnLayout(id: String, layoutName: String)  {
         viewModelScope.launch(Dispatchers.IO){
             val design = repository.getBusinessLayout(id, layoutName)
-            layout.postValue(design.value?.layout)
+            layout.postValue(design.value)
         }
     }
 

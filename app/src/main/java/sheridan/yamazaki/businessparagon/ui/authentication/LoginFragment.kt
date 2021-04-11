@@ -41,6 +41,7 @@ class LoginFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentLoginBinding
     lateinit var navController: NavController
+    private val viewModel: UserViewModel by viewModels()
     private val firebaseAnalytics = Firebase.analytics
 
     @SuppressLint("ClickableViewAccessibility")
@@ -279,7 +280,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun loginClicked() {
-        signIn(binding.email.text.toString().trim(), binding.password.text.toString().trim())
+        val email = binding.email.text.toString().trim()
+        val password = binding.password.text.toString().trim()
+        viewModel.signIn(email,password, requireActivity(), auth)
         logAnalyticsEvent()
     }
 
@@ -308,24 +311,6 @@ class LoginFragment : Fragment() {
         val bundle = Bundle()
         bundle.putString(FirebaseAnalytics.Param.METHOD, "login_in_method")
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle)
-    }
-
-
-    private fun signIn(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(requireActivity()) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        val user = auth.currentUser
-                        startBusinessActivity()
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w("SignInFail", "signInWithEmail:failure", task.exception)
-                        Toast.makeText(getActivity(), "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
-
-                    }
-                }
     }
 
     private fun startBusinessActivity(){

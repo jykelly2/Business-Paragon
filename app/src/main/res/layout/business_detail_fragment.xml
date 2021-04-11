@@ -4,31 +4,151 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.graphics.Color"/>
+        <import type="androidx.core.content.ContextCompat" />
         <import type="sheridan.yamazaki.businessparagon.model.Business"/>
         <variable name="business" type="Business" />
+        <import type="sheridan.yamazaki.businessparagon.model.Layout"/>
+        <variable name="layout" type="Layout" />
+        <variable name="colour" type="Integer" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.business.detail.BusinessDetailFragment">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/business_logo"
             android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:alpha="1.0"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_baseline_location_on_24" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/gradient_up"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/business_name"
+            style="@style/Theme.BusinessParagon.Title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/dynamic_content">
-        </LinearLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="14dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/business_category"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@{business.name}"
+            tools:text="Some Business" />
 
-    <TextView
-        android:id="@+id/business_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="@{business.name}"
-        android:textColor="#000"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/business_category"
+            style="@style/Theme.BusinessParagon.Subheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/business_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@{business.category}"
+            tools:text="Italian" />
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/businessCity_divider"
+            style="@style/Theme.BusinessParagon.TextDivider"
+            android:layout_marginStart="8dp"
+            android:text="@string/divider_bullet"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/business_category"
+            app:layout_constraintStart_toEndOf="@+id/business_category"
+            app:layout_constraintTop_toTopOf="@+id/business_category" />
+
+        <TextView
+            android:id="@+id/business_city"
+            style="@style/Theme.BusinessParagon.Subheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@android:color/white"
+            app:layout_constraintBaseline_toBaselineOf="@+id/business_category"
+            app:layout_constraintStart_toEndOf="@+id/businessCity_divider"
+            android:text="@{business.city}"
+            tools:text="San Francisco" />
+
+       <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerProducts"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="12dp"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/business_logo"
+            tools:listitem="@layout/product_list_item" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
+
+
+    <!-- <RatingBar
+         android:id="@+id/restaurantRating"
+         style="@style/Widget.AppCompat.RatingBar.Indicator"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginStart="16dp"
+         android:layout_marginBottom="16dp"
+         app:layout_constraintBottom_toTopOf="@+id/restaurantCategory"
+         app:layout_constraintStart_toStartOf="parent"
+         tools:rating="4" />
+
+     <TextView
+         android:id="@+id/restaurantNumRatings"
+         style="@style/Theme.FriendlyEats.Body1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginStart="8dp"
+         android:textColor="@android:color/white"
+         app:layout_constraintBottom_toBottomOf="@+id/restaurantRating"
+         app:layout_constraintStart_toEndOf="@+id/restaurantRating"
+         app:layout_constraintTop_toTopOf="@+id/restaurantRating"
+         tools:text="(10)" />-->
+
+    <!--<TextView
+             android:id="@+id/restaurantPrice"
+             style="@style/Theme.FriendlyEats.Body1"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="8dp"
+             android:layout_marginEnd="16dp"
+             android:textColor="@android:color/white"
+             android:textStyle="bold"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintTop_toTopOf="@+id/restaurantName"
+             tools:text="$$$" />-->
+
+
+    <!-- Products -->
+
+    <!-- <com.google.android.material.floatingactionbutton.FloatingActionButton
+         android:id="@+id/fabShowRatingDialog"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginEnd="16dp"
+         android:contentDescription="@string/add_review"
+         app:layout_constraintBottom_toBottomOf="@+id/business_logo"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/business_logo"
+         app:srcCompat="@drawable/ic_add_white_24px" />-->

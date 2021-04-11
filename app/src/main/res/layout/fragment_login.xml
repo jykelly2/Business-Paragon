@@ -16,15 +16,9 @@
          app:title="Business Paragon"
          app:titleTextColor="#000000" />
 
-             <ImageView
-         android:id="@+id/icon_image"
-         android:layout_centerHorizontal="true"
-         android:layout_marginTop="20dp"
-         android:layout_width="60dp"
-         android:layout_height="60dp"
-         android:src="@drawable/ic_baseline_android_24" />-->
 
-    <com.google.android.material.imageview.ShapeableImageView
+
+           <com.google.android.material.imageview.ShapeableImageView
         app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
         app:strokeColor="@color/cardview_shadow_start_color"
         app:strokeWidth="1dp"
@@ -33,10 +27,21 @@
         android:id="@+id/icon_image"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:src="@drawable/ic_baseline_android_24"
-        />
+        android:src="@drawable/ic_company_logo"
+        />-->
 
-    <TextView
+    <ImageView
+        android:id="@+id/icon_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_company_logo" />
+
+
+
+
+    <!-- <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,8 +53,7 @@
         android:textStyle="bold"
         android:textSize="25sp" />
 
-
-    <!-- <TextView
+    <TextView
          android:id="@+id/login"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
@@ -61,14 +65,13 @@
          android:textSize="17sp" />-->
 
     <EditText
-
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
+        android:layout_below="@+id/icon_image"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:drawablePadding="10dp"
         android:hint="Email"
         android:inputType="textEmailAddress"

@@ -1,11 +1,16 @@
 package sheridan.yamazaki.businessparagon.model
 
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.IgnoreExtraProperties
-import java.io.Serializable
-import java.util.*
+
 
 @IgnoreExtraProperties
-data class Layout (var name: String? = null,
-                 var layout: String? = null,
-                 @DocumentId var id: String? = null)
+data class Layout(var name: String? = null,
+                  var layout: String? = null,
+                  var textColour: String? = null,
+                  var backgroundColour: String? = null,
+                  @DocumentId var id: String? = null)
+
+

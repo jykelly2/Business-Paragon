@@ -16,6 +16,7 @@ import sheridan.yamazaki.businessparagon.firestore.FirestoreCollectionLiveData
 import sheridan.yamazaki.businessparagon.firestore.FirestoreDocumentLiveData
 import sheridan.yamazaki.businessparagon.model.Business
 import sheridan.yamazaki.businessparagon.model.Layout
+import sheridan.yamazaki.businessparagon.model.Product
 import javax.inject.Inject
 
 
@@ -41,13 +42,20 @@ class BusinessRepositoryImpl @Inject constructor(
         return FirestoreDocumentLiveData(collection.document(id), Business::class.java)
     }
 
-    override suspend fun getBusinessLayout(id: String, layoutName: String): LiveData<Layout> {
-        val design = collection.document(id).collection("design")
+    override suspend fun getBusinessLayout(businessId: String, layoutName: String): LiveData<Layout> {
+        val design = collection.document(businessId).collection("design")
                 .whereEqualTo("name", layoutName).limit(1).get().await().documents[0].toObject<Layout>()
-
         return MutableLiveData(design)
     }
 
+    override fun getBusinessProducts(id: String): LiveData<List<Product>> {
+        val products = collection.document(id).collection("products")
+                .whereEqualTo("productAvailable", true)
+                .orderBy("productName", Query.Direction.ASCENDING)
+                .limit(LIMIT.toLong())
+
+        return FirestoreCollectionLiveData(products, Product::class.java)
+    }
     /* fun createDummyBusinesses(): LiveData<List<Business>> {
         val list3 = listOf(
         Business("Loblaw","Grocery", "loblaws.ca", "647-666-666", "123 Main st. Mississauga", "https://img.huffingtonpost.com/asset/5e1512f2250000ffddd3214c.jpeg?cache=jOcO5DLOgn&ops=1200_630", 1),

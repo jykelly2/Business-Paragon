@@ -404,7 +404,7 @@ class SignUpFragment : Fragment(){
     private fun signUpClicked(){
         if (validateInput()) {
             val user = createUserObj()
-            createAccount(user)
+            viewModel.createAccount(user, requireActivity(), auth)
             logAnalyticsEvent()
         }
         else{
@@ -420,24 +420,6 @@ class SignUpFragment : Fragment(){
         val bundle = Bundle()
         bundle.putString(FirebaseAnalytics.Param.METHOD, "sign_up_method")
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle)
-    }
-
-    private fun createAccount(user: User) {
-        auth.createUserWithEmailAndPassword(user.email, user.password)
-                .addOnCompleteListener(requireActivity()) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        val authUserId = auth.currentUser.uid
-                        user.id = authUserId
-                        viewModel.addUser(user)
-                        startBusinessActivity()
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.d("signInFail", "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(requireActivity(), "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
-                    }
-                }
     }
 
     fun validateInput(): Boolean{
@@ -469,13 +451,6 @@ class SignUpFragment : Fragment(){
         else
         {
             binding.signUpButton.setBackgroundResource(R.color.colorwhiteblueshade)
-        }
-    }
-
-    private fun startBusinessActivity(){
-        requireActivity().run {
-            startActivity(Intent(this, BusinessActivity::class.java))
-            finish()
         }
     }
 
