@@ -58,6 +58,7 @@ class BusinessDetailFragment: Fragment() {
          binding.recyclerProducts.adapter = adapter
 
         viewModel.products.observe(viewLifecycleOwner) { product ->
+            Log.d("product", product.size.toString())
             adapter.submitList(product)
         }
 
@@ -94,7 +95,7 @@ class BusinessDetailFragment: Fragment() {
                 val sw = StringWriter()
                transformer.transform(DOMSource(d1), StreamResult(File("/data/user/0/sheridan.yamazaki.businessparagon/files/business_detail_fragment.xml")))
             }*/
-          //  Log.d("layout", layout)
+           // Log.d("layout", layout.toString())
             binding.recyclerProducts.setBackgroundColor(Color.parseColor(layout.backgroundColour))
             binding.layout = layout
         }

@@ -23,4 +23,8 @@
     <color name="greyPrimary">#DE000000</color>
     <color name="greySecondary">#8B000000</color>
     <color name="greyDisabled">#61000000</color>
+    <color name="yellow">#FFA611</color>
+    <color name="orange">#F5820D</color>
+    <color name="yellow_light">#FFCB2B</color>
+
 </resources>

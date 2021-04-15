@@ -50,10 +50,9 @@ class BusinessRepositoryImpl @Inject constructor(
 
     override fun getBusinessProducts(id: String): LiveData<List<Product>> {
         val products = collection.document(id).collection("products")
-                .whereEqualTo("productAvailable", true)
                 .orderBy("productName", Query.Direction.ASCENDING)
                 .limit(LIMIT.toLong())
-
+        //.whereEqualTo("productAvailable", true)
         return FirestoreCollectionLiveData(products, Product::class.java)
     }
     /* fun createDummyBusinesses(): LiveData<List<Business>> {

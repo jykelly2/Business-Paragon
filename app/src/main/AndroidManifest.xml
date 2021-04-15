@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
         <activity android:name=".BusinessActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">></activity>
+            android:theme="@style/Theme.BusinessParagon.AppBarOverlay"></activity>
         <activity android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 

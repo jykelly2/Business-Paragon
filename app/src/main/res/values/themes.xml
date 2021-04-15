@@ -36,7 +36,10 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">14sp</item>
     </style>
-    <style name="Theme.BusinessParagon.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.BusinessParagon.AppBarOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/yellow_light</item>
+    </style>
 
-    <style name="Theme.BusinessParagon.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.BusinessParagon.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 </resources>
