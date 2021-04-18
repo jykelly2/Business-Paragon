@@ -6,15 +6,20 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 import sheridan.yamazaki.businessparagon.BusinessActivity
 import sheridan.yamazaki.businessparagon.MainActivity
 import sheridan.yamazaki.businessparagon.R
 import sheridan.yamazaki.businessparagon.databinding.FragmentSettingsBinding
+import sheridan.yamazaki.businessparagon.ui.authentication.UserViewModel
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
+    private val viewModel: UserViewModel by viewModels()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -42,7 +47,8 @@ class SettingsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_sign_out -> {
-                Firebase.auth.signOut()
+                viewModel.signOut()
+                //Firebase.auth.signOut()
                 startMainActivity()
                 true
             }

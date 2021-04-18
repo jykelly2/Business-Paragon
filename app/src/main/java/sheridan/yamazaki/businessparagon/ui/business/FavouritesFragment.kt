@@ -21,7 +21,7 @@ class FavouritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFavouritesBinding.inflate(inflater, container, false)
-        activity?.actionBar?.hide()
+       // activity?.actionBar?.hide()
         return binding.root
     }
 

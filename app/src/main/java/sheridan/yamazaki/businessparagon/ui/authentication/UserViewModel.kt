@@ -8,6 +8,8 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sheridan.yamazaki.businessparagon.BusinessActivity
@@ -32,6 +34,10 @@ class UserViewModel @ViewModelInject constructor(
         viewModelScope.launch(Dispatchers.IO){
             repository.signIn(email,password,activity,auth)
         }
+    }
+
+    fun signOut(){
+        Firebase.auth.signOut()
     }
 }
 
