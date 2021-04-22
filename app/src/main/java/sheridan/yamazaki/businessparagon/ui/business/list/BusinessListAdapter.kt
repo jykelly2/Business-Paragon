@@ -11,7 +11,7 @@ import sheridan.yamazaki.businessparagon.databinding.BusinessListItemBinding
 import sheridan.yamazaki.businessparagon.model.Business
 
 
-class BusinessListAdapter(
+class BusinessListAdapter(val businesses: ArrayList<Business>,
     private val onClick: (Business) -> Unit
 ): ListAdapter<Business, BusinessListAdapter.ViewHolder>(BusinessDiffCallback())  {
 
@@ -21,8 +21,14 @@ class BusinessListAdapter(
         return ViewHolder(binding)
     }
 
+    override fun getItemCount(): Int {
+       // return super.getItemCount()
+        return businesses.size
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        //holder.bind(getItem(position))
+        holder.bind(businesses[position])
     }
 
     inner class ViewHolder constructor(

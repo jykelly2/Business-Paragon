@@ -19,4 +19,5 @@ class NearMeFragment : Fragment() {
         binding = FragmentNearMeBinding.inflate(inflater, container, false)
         return binding.root
     }
+
 }

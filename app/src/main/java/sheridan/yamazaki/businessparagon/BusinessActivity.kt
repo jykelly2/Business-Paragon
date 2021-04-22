@@ -1,36 +1,26 @@
 package sheridan.yamazaki.businessparagon
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
-import androidx.appcompat.widget.Toolbar
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import sheridan.yamazaki.businessparagon.databinding.ActivityBusinessBinding
-import sheridan.yamazaki.businessparagon.ui.business.list.BusinessListFragment
 import sheridan.yamazaki.businessparagon.ui.business.FavouritesFragment
 import sheridan.yamazaki.businessparagon.ui.business.NearMeFragment
 import sheridan.yamazaki.businessparagon.ui.business.SettingsFragment
-import dagger.hilt.android.AndroidEntryPoint
+import sheridan.yamazaki.businessparagon.ui.business.list.BusinessListFragment
 
 @AndroidEntryPoint
 class BusinessActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBusinessBinding
-
+    private var savedView : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (savedInstanceState != null){
+            savedView = savedInstanceState?.getString("savedView").toString()
+        }
 
         binding = ActivityBusinessBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -40,24 +30,54 @@ class BusinessActivity : AppCompatActivity() {
         val settingsFragment = SettingsFragment()
         val nearMeFragment = NearMeFragment()
 
-        makeCurrentFragment(exploreFragment)
+        when (savedView) {
+            "nearMe" -> {
+                makeCurrentFragment(nearMeFragment)
+            }
+            "favourite" -> {
+                makeCurrentFragment(favouritesFragment)
+            }
+            "settings" -> {
+                makeCurrentFragment(settingsFragment)
+            }
+            else -> { makeCurrentFragment(exploreFragment)}
+        }
 
-       binding.bottomNavigation.setOnNavigationItemSelectedListener {it ->
+       binding.bottomNavigation.setOnNavigationItemSelectedListener { it ->
            when (it.itemId){
-               R.id.businessListFragment-> {makeCurrentFragment(exploreFragment)}
-               R.id.favouriteFragment -> {makeCurrentFragment(favouritesFragment)}
-               R.id.nearMeFragment -> {makeCurrentFragment(nearMeFragment)}
-               R.id.settingsFragment -> {makeCurrentFragment(settingsFragment)}
+               R.id.businessListFragment -> {
+                   savedView = "explore"
+                   makeCurrentFragment(exploreFragment)
+               }
+               R.id.favouriteFragment -> {
+                   savedView = "favourite"
+                   makeCurrentFragment(favouritesFragment)
+               }
+               R.id.nearMeFragment -> {
+                   savedView = "nearMe"
+                   makeCurrentFragment(nearMeFragment)
+               }
+               R.id.settingsFragment -> {
+                   savedView = "settings"
+                   makeCurrentFragment(settingsFragment)
+               }
            }
            true
        }
     }
 
-    private fun makeCurrentFragment(fragment : Fragment) =
+    private fun makeCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fl_wrapper, fragment)
             commit()
      }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (outState != null) {
+            super.onSaveInstanceState(outState)
+        }
+        outState?.putString("savedView", savedView)
+    }
 }
 /*  val navHostFragment =
        supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment

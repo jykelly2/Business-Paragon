@@ -42,14 +42,14 @@ class BusinessDetailFragment: Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val id = requireArguments().getString("id")
 
-        if (id != null) {
+        val id = requireArguments().getString("id").toString()
+        if (id.isNotEmpty()) {
             viewModel.loadData(id)
             viewModel.returnLayout(id, "detail")
         }
 
-         binding = BusinessDetailFragmentBinding.inflate(inflater, container, false)
+        binding = BusinessDetailFragmentBinding.inflate(inflater, container, false)
 
         val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
          binding.recyclerProducts.addItemDecoration(divider)
@@ -58,7 +58,6 @@ class BusinessDetailFragment: Fragment() {
          binding.recyclerProducts.adapter = adapter
 
         viewModel.products.observe(viewLifecycleOwner) { product ->
-            Log.d("product", product.size.toString())
             adapter.submitList(product)
         }
 
@@ -108,4 +107,5 @@ class BusinessDetailFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
     }
+
 }

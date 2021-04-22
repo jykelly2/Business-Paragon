@@ -5,9 +5,12 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
@@ -29,15 +32,31 @@ class UserViewModel @ViewModelInject constructor(
             repository.createAuthAccount(user,activity,auth)
         }
     }
-
+    fun updateUser(user: User, activity: FragmentActivity){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.updateUser(user, activity)
+        }
+    }
     fun signIn(email: String, password:String, activity: Activity, auth: FirebaseAuth) {
         viewModelScope.launch(Dispatchers.IO){
             repository.signIn(email,password,activity,auth)
         }
     }
 
+    fun reauthenticateUser(email: String, password: String, activity: Activity, auth: FirebaseAuth){
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(activity) { task ->
+                    if (task.isSuccessful) {
+                    }
+                    }
+    }
+
     fun signOut(){
         Firebase.auth.signOut()
+    }
+
+    fun loadData(id: String){
+        userId.value = id
     }
 }
 

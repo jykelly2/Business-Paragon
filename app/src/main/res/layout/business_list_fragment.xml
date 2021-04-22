@@ -18,9 +18,8 @@
             android:id="@+id/recycler_Businesses"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
+            android:background="@color/white"
             app:layoutManager="LinearLayoutManager"
-            app:listData="@{viewModel.businesses}"
             tools:listitem="@layout/business_list_item" />
     </FrameLayout>
 </layout>

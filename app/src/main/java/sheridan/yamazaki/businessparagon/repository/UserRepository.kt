@@ -1,6 +1,7 @@
 package sheridan.yamazaki.businessparagon.repository
 
 import android.app.Activity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
 import sheridan.yamazaki.businessparagon.model.User
@@ -10,6 +11,11 @@ interface UserRepository {
 
     suspend fun insert(
         user: User
+    )
+
+    suspend fun updateUser(
+            user: User,
+            activity: FragmentActivity
     )
 
     suspend fun createAuthAccount(

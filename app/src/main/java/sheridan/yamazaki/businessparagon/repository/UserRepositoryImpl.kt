@@ -4,14 +4,17 @@ import android.app.Activity
 import android.app.Application
 import android.app.PendingIntent.getActivity
 import android.content.Intent
+import android.text.TextUtils.replace
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
@@ -23,10 +26,13 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import sheridan.yamazaki.businessparagon.BusinessActivity
+import sheridan.yamazaki.businessparagon.R
 import sheridan.yamazaki.businessparagon.firestore.FirestoreCollectionLiveData
 import sheridan.yamazaki.businessparagon.firestore.FirestoreDocumentLiveData
 import sheridan.yamazaki.businessparagon.model.Business
 import sheridan.yamazaki.businessparagon.model.User
+import sheridan.yamazaki.businessparagon.ui.business.EditProfileFragment
+import sheridan.yamazaki.businessparagon.ui.business.SettingsFragment
 import javax.inject.Inject
 
 
@@ -57,6 +63,44 @@ class UserRepositoryImpl @Inject constructor(
             Log.d(TAG, "insert: ${e.message}")
         }
     }
+
+    override suspend fun updateUser(user: User, activity: FragmentActivity) {
+        try {
+            collection.document(user.id!!).set(user)
+            updateFireAuthAccount(user, activity)
+        }catch (e: Exception){
+            Log.d(TAG, "update: ${e.message}")
+        }
+    }
+
+    private fun updateFireAuthAccount(newProfile: User, activity: FragmentActivity){
+        val user = Firebase.auth.currentUser
+        user!!.updateEmail(newProfile.email)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "User email address updated.")
+                    }
+                    else {
+                        Log.d(TAG, "updateWithEmail:failure", task.exception)
+                    }
+                }
+        user!!.updatePassword(newProfile.password)
+                .addOnCompleteListener(activity) { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(activity, "Updated Profile.",
+                                Toast.LENGTH_SHORT).show()
+                        val fragment = SettingsFragment()
+                        activity.supportFragmentManager?.beginTransaction()?.apply {
+                            replace(R.id.fl_wrapper, fragment)
+                            commit()
+                        }
+                    }
+                    else {
+                        Log.d(TAG, "update password:failure", task.exception)
+                    }
+                }
+    }
+
 
     override suspend fun createAuthAccount(user: User, activity: Activity, auth: FirebaseAuth) {
         try {
