@@ -21,14 +21,13 @@
 
         <TextView
             android:id="@+id/title"
+            style="@style/Theme.BusinessParagon.SectionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:text="Edit Profile"
-            android:textColor="@color/colorBackground"
-            android:textStyle="bold"
-            android:textSize="25sp" />
+            android:layout_marginLeft="20dp"
+            android:text="Profile Information"
+            android:textColor="@color/colorBackground"/>
 
         <EditText
             android:id="@+id/username"

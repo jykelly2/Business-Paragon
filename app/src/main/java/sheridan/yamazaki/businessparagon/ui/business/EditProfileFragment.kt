@@ -3,9 +3,6 @@ package sheridan.yamazaki.businessparagon.ui.business
 import sheridan.yamazaki.businessparagon.ui.authentication.UserViewModel
 import androidx.fragment.app.Fragment
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import sheridan.yamazaki.businessparagon.databinding.FragmentSignupBinding
 import android.util.Log
 import android.text.SpannableString
@@ -16,9 +13,9 @@ import android.annotation.SuppressLint
 import android.graphics.PorterDuff
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.MotionEvent
 import android.widget.TextView
 import android.content.Intent
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.DrawableCompat
@@ -33,6 +30,7 @@ import sheridan.yamazaki.businessparagon.BusinessActivity
 import sheridan.yamazaki.businessparagon.R
 import sheridan.yamazaki.businessparagon.databinding.FragmentEditProfileBinding
 import sheridan.yamazaki.businessparagon.model.User
+import sheridan.yamazaki.businessparagon.ui.business.list.BusinessListFragment
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
@@ -54,7 +52,6 @@ class EditProfileFragment : Fragment(){
 
         if (currentUserId.isNotEmpty()) {
             viewModel.loadData(currentUserId)
-
         }
         viewModel.user.observe(viewLifecycleOwner) { user ->
             binding.user = user
@@ -433,7 +430,9 @@ class EditProfileFragment : Fragment(){
         val mAddress: String = binding.address.text.toString().trim()
         val id = auth.currentUser.uid
 
-        return User(mUsername, mEmail, mPassword, mPhoneNumber, mAddress, "", 0,0, Date(), id)
+        val user = binding.user!!
+        return User(mUsername, mEmail, mPassword, mPhoneNumber, mAddress, "", 0,0, Date(),
+                user.country,user.fullName, user.city, user.province, user.postalCode,id)
     }
 
     override fun onStart()
@@ -451,7 +450,29 @@ class EditProfileFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+        //(requireActivity() as AppCompatActivity).supportActionBar?.hide()
+        val toolbar = (requireActivity() as AppCompatActivity)
+        toolbar.supportActionBar?.show()
+        toolbar.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setHasOptionsMenu(true)
+        toolbar.title = "Edit Profile"
+    }
+
+    override fun onDestroyView() {
+        val toolbar = (requireActivity() as AppCompatActivity)
+        toolbar.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        setHasOptionsMenu(false)
+        toolbar.title = "Business Paragon"
+        super.onDestroyView()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val fragment = SettingsFragment()
+        activity?.supportFragmentManager?.beginTransaction()?.apply {
+            replace(R.id.fl_wrapper, fragment)
+            commit()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

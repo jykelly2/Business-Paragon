@@ -14,9 +14,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import sheridan.yamazaki.businessparagon.firestore.FirestoreCollectionLiveData
 import sheridan.yamazaki.businessparagon.firestore.FirestoreDocumentLiveData
-import sheridan.yamazaki.businessparagon.model.Business
-import sheridan.yamazaki.businessparagon.model.Layout
-import sheridan.yamazaki.businessparagon.model.Product
+import sheridan.yamazaki.businessparagon.model.*
 import javax.inject.Inject
 
 
@@ -42,9 +40,45 @@ class BusinessRepositoryImpl @Inject constructor(
         return FirestoreDocumentLiveData(collection.document(id), Business::class.java)
     }
 
+    override suspend fun getBusinessProductDetail(businessId: String, productId: String): LiveData<Product> {
+        val product = collection.document(businessId).collection("products")
+                .document(productId).get().await().toObject<Product>()
+        return MutableLiveData(product)
+    }
+
     override suspend fun getBusinessLayout(businessId: String, layoutName: String): LiveData<Layout> {
         val design = collection.document(businessId).collection("design")
                 .whereEqualTo("name", layoutName).limit(1).get().await().documents[0].toObject<Layout>()
+        return MutableLiveData(design)
+    }
+
+    override suspend fun getBusinessDetailLayout(businessId: String, layoutName: String): LiveData<DetailLayout> {
+        val design = collection.document(businessId).collection("design")
+                .whereEqualTo("name", layoutName).limit(1).get().await().documents[0].toObject<DetailLayout>()
+        return MutableLiveData(design)
+    }
+
+    override suspend fun getBusinessPaymentLayout(businessId: String, layoutName: String): LiveData<PaymentLayout> {
+        val design = collection.document(businessId).collection("design")
+                .whereEqualTo("name", layoutName).limit(1).get().await().documents[0].toObject<PaymentLayout>()
+        return MutableLiveData(design)
+    }
+
+    override suspend fun getBusinessShoppingListLayout(businessId: String, layoutName: String): LiveData<ShoppingListLayout> {
+        val design = collection.document(businessId).collection("design")
+                .whereEqualTo("name", layoutName).limit(1).get().await().documents[0].toObject<ShoppingListLayout>()
+        return MutableLiveData(design)
+    }
+
+    override suspend fun getBusinessCheckoutLayout(businessId: String, layoutName: String): LiveData<CheckoutLayout> {
+        val design = collection.document(businessId).collection("design")
+                .whereEqualTo("name", layoutName).limit(1).get().await().documents[0].toObject<CheckoutLayout>()
+        return MutableLiveData(design)
+    }
+
+    override suspend fun getBusinessProductDetailLayout(businessId: String, layoutName: String): LiveData<ProductDetailLayout> {
+        val design = collection.document(businessId).collection("design")
+                .whereEqualTo("name", layoutName).limit(1).get().await().documents[0].toObject<ProductDetailLayout>()
         return MutableLiveData(design)
     }
 

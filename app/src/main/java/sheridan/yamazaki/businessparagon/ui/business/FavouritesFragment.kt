@@ -10,9 +10,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import sheridan.yamazaki.businessparagon.databinding.FragmentFavouritesBinding
 
-
+@AndroidEntryPoint
 class FavouritesFragment : Fragment() {
     private lateinit var binding: FragmentFavouritesBinding
 

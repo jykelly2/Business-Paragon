@@ -2,42 +2,35 @@ package sheridan.yamazaki.businessparagon.repository
 
 import android.app.Activity
 import android.app.Application
-import android.app.PendingIntent.getActivity
 import android.content.Intent
-import android.text.TextUtils.replace
 import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import sheridan.yamazaki.businessparagon.BusinessActivity
 import sheridan.yamazaki.businessparagon.R
-import sheridan.yamazaki.businessparagon.firestore.FirestoreCollectionLiveData
 import sheridan.yamazaki.businessparagon.firestore.FirestoreDocumentLiveData
-import sheridan.yamazaki.businessparagon.model.Business
+import sheridan.yamazaki.businessparagon.model.Product
+import sheridan.yamazaki.businessparagon.model.ShoppingCart
 import sheridan.yamazaki.businessparagon.model.User
-import sheridan.yamazaki.businessparagon.ui.business.EditProfileFragment
 import sheridan.yamazaki.businessparagon.ui.business.SettingsFragment
 import javax.inject.Inject
 
 
 class UserRepositoryImpl @Inject constructor(
-    private val application: Application
+        private val application: Application
 ) : UserRepository {
 
     companion object {
@@ -47,13 +40,75 @@ class UserRepositoryImpl @Inject constructor(
 
     private val firestore = Firebase.firestore
     private val collection = firestore.collection("users")
+    private val businessCollection = firestore.collection("businesses")
 
     override fun getUser(id: String): LiveData<User> {
         return FirestoreDocumentLiveData(collection.document(id), User::class.java)
     }
 
+    override suspend fun updateUserShoppingCart(userId: String, shoppingCartIds: ArrayList<String>) {
+        for (item in shoppingCartIds){
+            Log.d("updateshopi", item)
+            collection.document(userId).collection("cart")
+                    .document(item).update("processed", true)
+        }
+    }
+    override suspend fun getUserShoppingCart(id: String): LiveData<List<Product>> {
+        val cartCollection = collection.document(id).collection("cart").get().await()
+        var carts = ArrayList<ShoppingCart>()
+        for (singleCart in cartCollection) {
+            carts.add(singleCart.toObject<ShoppingCart>())
+        }
+
+        var products = ArrayList<Product>()
+        for (cart in carts) {
+            if (cart.processed == false) {
+                var product = cart.businessId?.let {
+                    cart.productId?.let { it1 ->
+                        businessCollection.document(it).collection("products")
+                                .document(it1).get().await().toObject<Product>()
+                    }
+                }
+
+                if (product != null) {
+                    product.quantity = cart.quantity
+                    product.shoppingCartId = cart.id
+                    products.add(product)
+                }
+            }
+        }
+        return MutableLiveData(products)
+    }
+
+    override suspend fun getCartBusinessId(id: String): LiveData<String> {
+        val cart = collection.document(id).collection("cart").whereEqualTo("processed", false).limit(1).get().await().documents[0].toObject<ShoppingCart>()
+        val businessId = cart?.businessId
+        return MutableLiveData(businessId)
+    }
+
+    override suspend fun getUserShoppingCartSize(id: String): LiveData<Int> {
+        val cartSize = collection.document(id).collection("cart").whereEqualTo("processed", false).get().await().documents.size
+        return MutableLiveData(cartSize)
+    }
+
+    override suspend fun addToUserShoppingCart(userId: String, shoppingCart: ShoppingCart) {
+        try {
+            collection.document(userId).collection("cart").add(shoppingCart)
+        }catch (e: Exception){
+            Log.d(TAG, "update: ${e.message}")
+        }
+    }
+
+    override suspend fun removeFromUserShoppingCart(userId: String, shoppingCartId: String) {
+        try {
+            collection.document(userId).collection("cart").document(shoppingCartId).delete()
+        }catch (e: Exception){
+            Log.d(TAG, "update: ${e.message}")
+        }
+    }
+
     override suspend fun insert(
-        user: User
+            user: User
     ) {
         try {
             collection.document(user.id!!).set(user)
@@ -68,6 +123,14 @@ class UserRepositoryImpl @Inject constructor(
         try {
             collection.document(user.id!!).set(user)
             updateFireAuthAccount(user, activity)
+        }catch (e: Exception){
+            Log.d(TAG, "update: ${e.message}")
+        }
+    }
+
+    override suspend fun updateUserBillingInfo(user: User) {
+        try {
+            collection.document(user.id!!).set(user)
         }catch (e: Exception){
             Log.d(TAG, "update: ${e.message}")
         }
@@ -104,6 +167,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun createAuthAccount(user: User, activity: Activity, auth: FirebaseAuth) {
         try {
+            Log.d("infireauth", user.email + user.password)
             auth.createUserWithEmailAndPassword(user.email, user.password)
                     .addOnCompleteListener(activity) { task ->
                         if (task.isSuccessful) {

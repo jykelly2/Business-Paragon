@@ -33,5 +33,13 @@
 
     <string name="divider_bullet">•</string>
 
+    <!-- Location spinner items -->
+    <string-array name="distance_array">
+        <item>5 km</item>
+        <item>10 km</item>
+        <item>15 km</item>
+        <item>20 km</item>
+    </string-array>
+
 
 </resources>

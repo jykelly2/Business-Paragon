@@ -1,18 +1,17 @@
 package sheridan.yamazaki.businessparagon
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import sheridan.yamazaki.businessparagon.databinding.ActivityBusinessBinding
 import sheridan.yamazaki.businessparagon.ui.business.FavouritesFragment
-import sheridan.yamazaki.businessparagon.ui.business.NearMeFragment
+import sheridan.yamazaki.businessparagon.ui.business.location.NearMeFragment
 import sheridan.yamazaki.businessparagon.ui.business.SettingsFragment
 import sheridan.yamazaki.businessparagon.ui.business.list.BusinessListFragment
 
 @AndroidEntryPoint
-class BusinessActivity : AppCompatActivity() {
+class BusinessActivity : AppCompatActivity(){ //, OnMapReadyCallback {
     private lateinit var binding: ActivityBusinessBinding
     private var savedView : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +23,9 @@ class BusinessActivity : AppCompatActivity() {
 
         binding = ActivityBusinessBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+        //mapFragment?.getMapAsync(this)
 
         val exploreFragment = BusinessListFragment()
         val favouritesFragment = FavouritesFragment()
@@ -78,6 +80,25 @@ class BusinessActivity : AppCompatActivity() {
         }
         outState?.putString("savedView", savedView)
     }
+
+    /*override fun onMapReady(googleMap: GoogleMap?) {
+        Log.d("locatins", "location")
+        googleMap?.apply {
+            val sydney = LatLng(-33.852, 151.211)
+            addMarker(
+                MarkerOptions()
+                    .position(sydney)
+                    .title("Marker in Sydney")
+            )
+            addMarker(
+                MarkerOptions()
+                    .position(LatLng(37.7750, 122.4183))
+                    .title("San Francisco")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            )
+            moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        }
+    }*/
 }
 /*  val navHostFragment =
        supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment

@@ -42,6 +42,9 @@ class UserViewModel @ViewModelInject constructor(
             repository.signIn(email,password,activity,auth)
         }
     }
+    fun signOut(){
+        Firebase.auth.signOut()
+    }
 
     fun reauthenticateUser(email: String, password: String, activity: Activity, auth: FirebaseAuth){
         auth.signInWithEmailAndPassword(email, password)
@@ -49,10 +52,6 @@ class UserViewModel @ViewModelInject constructor(
                     if (task.isSuccessful) {
                     }
                     }
-    }
-
-    fun signOut(){
-        Firebase.auth.signOut()
     }
 
     fun loadData(id: String){

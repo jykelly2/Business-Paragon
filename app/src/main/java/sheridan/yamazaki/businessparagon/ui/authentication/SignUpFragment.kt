@@ -438,7 +438,8 @@ class SignUpFragment : Fragment(){
         val mPhoneNumber: String = binding.phoneNumber.text.toString().trim()
         val mAddress: String = binding.address.text.toString().trim()
 
-        return User(mUsername, mEmail, mPassword, mPhoneNumber, mAddress, "", 0,0, Date())
+        return User(mUsername, mEmail, mPassword, mPhoneNumber, mAddress, "", 0,0, Date(),
+        "","","","","","")
     }
 
     override fun onStart()

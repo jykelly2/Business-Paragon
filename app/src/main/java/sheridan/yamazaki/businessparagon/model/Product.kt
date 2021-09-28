@@ -9,4 +9,6 @@ data class Product(var productName: String? = null,
                    var unitPrice: Double? = null,
                    var description: String? = null,
                    var picture : String? = null,
+                   var quantity: Int? = null,
+                   var shoppingCartId: String? = null,
                    @DocumentId var id: String? = null)

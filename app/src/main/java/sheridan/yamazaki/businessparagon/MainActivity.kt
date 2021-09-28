@@ -2,6 +2,7 @@ package sheridan.yamazaki.businessparagon
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.widget.Toolbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/nearMeFragment"
-        android:name="sheridan.yamazaki.businessparagon.ui.business.NearMeFragment"
+        android:name="sheridan.yamazaki.businessparagon.ui.business.location.NearMeFragment"
         android:label="NearMeFragment" >
     </fragment>
 

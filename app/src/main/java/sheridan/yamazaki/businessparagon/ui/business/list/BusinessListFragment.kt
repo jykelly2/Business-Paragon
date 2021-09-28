@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.SearchView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,12 +16,15 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.business_list_fragment.*
 import sheridan.yamazaki.businessparagon.R
 import sheridan.yamazaki.businessparagon.databinding.BusinessListFragmentBinding
 import sheridan.yamazaki.businessparagon.model.Business
+import sheridan.yamazaki.businessparagon.ui.business.checkout.CheckoutFragment
 import sheridan.yamazaki.businessparagon.ui.business.detail.BusinessDetailFragment
 import sheridan.yamazaki.businessparagon.ui.business.detail.BusinessDetailViewModel
 import java.util.*
@@ -32,6 +37,10 @@ class BusinessListFragment : Fragment() {
     private val firebaseAnalytics = Firebase.analytics
     private lateinit var binding: BusinessListFragmentBinding
     private val viewModel: BusinessListViewModel by viewModels()
+    private var cartBusinessId: String = ""
+    private var cartQuantity: Int = 0
+    private var currentUserId: String = ""
+    private lateinit var auth: FirebaseAuth
 
     var items = ArrayList<Business>()
     val displayList = ArrayList<Business>()
@@ -41,7 +50,14 @@ class BusinessListFragment : Fragment() {
    ): View? {
         binding = BusinessListFragmentBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
-        //binding.viewModel = viewModel
+
+        auth = Firebase.auth
+        currentUserId = auth.currentUser.uid
+
+        if (currentUserId.isNotEmpty()){
+            Log.d("hereji", currentUserId)
+            viewModel.returnShoppingCartSize(currentUserId)
+        }
 
         val adapter = BusinessListAdapter(displayList, onClick = {
             logAnalyticsEvent(it)
@@ -57,6 +73,17 @@ class BusinessListFragment : Fragment() {
            items.removeAll(it)
            items.addAll(it)
         }
+
+        viewModel.cartSize.observe(viewLifecycleOwner) { cartSize ->
+            cartQuantity = cartSize
+            if (cartSize > 0) viewModel.returnCartBusinessId(currentUserId)
+            activity?.invalidateOptionsMenu()
+        }
+
+        viewModel.cartBusinessId.observe(viewLifecycleOwner) { businessId ->
+            cartBusinessId = businessId
+        }
+
         displayList.addAll(items)
         return binding.root
     }
@@ -90,6 +117,16 @@ class BusinessListFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.search_menu, menu)
+        val cartMenuItem = menu!!.findItem(R.id.cartFragment)
+        val actionView = cartMenuItem.actionView;
+
+        val cartBadgeTextView = actionView.findViewById<TextView>(R.id.cart_badge_text_view)
+        cartBadgeTextView.text = cartQuantity.toString();
+        cartBadgeTextView.visibility = if (cartQuantity == 0){ View.INVISIBLE }else View.VISIBLE
+        actionView.setOnClickListener {
+            onOptionsItemSelected(cartMenuItem)
+        }
+
         val menuItem = menu!!.findItem(R.id.menu_search)
         if (menuItem != null){
             val searchView = menuItem.actionView as SearchView
@@ -132,6 +169,25 @@ class BusinessListFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.toString() == "Cart"){
+            if (cartQuantity > 0) {
+                val fragment = CheckoutFragment()
+                val bundle = Bundle()
+                bundle.putString("id", cartBusinessId)
+                fragment.arguments = bundle
+
+                activity?.supportFragmentManager?.beginTransaction()?.apply {
+                    replace(R.id.fl_wrapper, fragment)
+                    commit()
+                }
+            }else{
+                Toast.makeText(
+                        activity,
+                        "Add products to shopping cart first!",
+                        Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
         return super.onOptionsItemSelected(item)
     }
 

@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import sheridan.yamazaki.businessparagon.R
 import sheridan.yamazaki.businessparagon.databinding.ProductListItemBinding
+import sheridan.yamazaki.businessparagon.model.Business
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ProductListAdapter(
+    private val onClick: (Product) -> Unit
 ): ListAdapter<Product, ProductListAdapter.ViewHolder>(ProductDiffCallback())  {
-
     companion object{
         private val FORMAT = SimpleDateFormat("MM/dd/yyyy", Locale.US)
     }
@@ -42,7 +43,8 @@ class ProductListAdapter(
                 binding.productPicture.setImageResource(R.drawable.ic_launcher_background)
             }
 
-            binding.productPrice.text = "$" + String.format("%.2f", product.unitPrice)
+            binding.productPrice.text = "C$" + String.format("%.2f", product.unitPrice)
+            binding.root.setOnClickListener { onClick(product) }
             binding.executePendingBindings()
         }
 

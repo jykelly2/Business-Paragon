@@ -27,9 +27,24 @@
         <item name="android:textSize">25sp</item>
     </style>
 
+    <style name="Theme.BusinessParagon.SubTitle">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="Theme.BusinessParagon.Subheader">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Theme.BusinessParagon.Total">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Theme.BusinessParagon.SectionTitle">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
     <style name="Theme.BusinessParagon.Body1">

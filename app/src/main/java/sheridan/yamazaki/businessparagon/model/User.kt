@@ -15,5 +15,10 @@ data class User (var username: String? = null,
                  var cardNumber: Int? = null,
                  var cvv: Int? = null,
                  var expiryDate: Date? = null,
+                 var country: String? = null,
+                 var fullName: String? = null,
+                 var city: String? = null,
+                 var province: String? = null,
+                 var postalCode: String? = null,
                  @DocumentId var id: String? = null
                  )
