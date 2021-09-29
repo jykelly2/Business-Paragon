@@ -15,10 +15,16 @@ Buisiness Paragon is an eCommerce application that allows small local businesses
 * .NET Framework, C#, JavaScript, HTML, CSS, Bootstrap
  
 ## Screenshots:
-
   <div>
-<img src="https://github.com/jykelly2/PetSupport/blob/master/Pet%20Support%20Pictures/Menu%20Phone.jpeg" height="600" width="280">
-   <img src="https://github.com/jykelly2/PetSupport/blob/master/Pet%20Support%20Pictures/View%20Shelter%20Phone.jpeg" height="600" width="280">
+<img src=https://github.com/jykelly2/Business-Paragon/blob/master/Business%20Paragon%20Mobile%20Pics/explore1.PNG" height="600" width="280">
+                                                                                                                                           &nbsp; &nbsp; &nbsp; 
+   <img src="https://github.com/jykelly2/Business-Paragon/blob/master/Business%20Paragon%20Mobile%20Pics/businessdetail2.PNG" height="600" width="280">
+<div>
+</br>
+ <div>
+<img src=https://github.com/jykelly2/Business-Paragon/blob/master/Business%20Paragon%20Mobile%20Pics/explore1.PNG" height="600" width="280">
+                                                                                                                                           &nbsp; &nbsp; &nbsp; 
+   <img src="https://github.com/jykelly2/Business-Paragon/blob/master/Business%20Paragon%20Mobile%20Pics/payment5.PNG" height="600" width="280">
 <div>
 </br>
     
