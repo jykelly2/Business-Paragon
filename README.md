@@ -22,7 +22,7 @@ Buisiness Paragon is an eCommerce application that allows small local businesses
 <div>
 </br>
  <div>
-<img src="https://github.com/jykelly2/Business-Paragon/blob/master/Business%20Paragon%20Mobile%20Pics/explore1.PNG" height="590" width="280">
+<img src="https://github.com/jykelly2/Business-Paragon/blob/master/Business%20Paragon%20Mobile%20Pics/checkout2.PNG" height="590" width="280">
                                                                                                                                            &nbsp; &nbsp; &nbsp; 
    <img src="https://github.com/jykelly2/Business-Paragon/blob/master/Business%20Paragon%20Mobile%20Pics/payment5.PNG" height="590" width="280">
 <div>
