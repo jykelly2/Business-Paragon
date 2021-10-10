@@ -5,7 +5,7 @@ Buisiness Paragon is an eCommerce application that allows small local businesses
   * Secure authentication and authorization using Firebase Authentication
   * Firestore and Firebase Analytics integration to store and analyze customers and their mobile app usage
   * Design template generation and store layout customization using JavaScript and C#
-  * IBM Watson Assistance chatbot to assist answering user's questions
+  * Customized IBM Watson Assistance chatbot integrated with IBM Text to Speech and Speech to Text, to assist answering user's questions
 
 ## Technologies:
 
