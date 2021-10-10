@@ -43,6 +43,7 @@
                         android:layout_marginTop="4dp"
                         android:contentDescription="@string/add_favourite"
                         app:tint="@android:color/white"
+                        android:elevation="0dp"
                         app:srcCompat="@drawable/ic_baseline_favorite_24" />
 
                     <LinearLayout

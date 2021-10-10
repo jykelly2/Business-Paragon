@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="5dp"
-                        android:text='@{"Unit Price: C$"+ product.unitPrice.toString()}'
+                        android:text='Unit Price'
                         android:textColor="#555"
                         app:layout_constraintTop_toBottomOf="@+id/product_name"
                         app:layout_constraintLeft_toRightOf="@+id/product_picture" />

@@ -17,6 +17,7 @@ import sheridan.yamazaki.businessparagon.R
 import sheridan.yamazaki.businessparagon.databinding.FragmentSettingsBinding
 import sheridan.yamazaki.businessparagon.ui.authentication.UserViewModel
 import sheridan.yamazaki.businessparagon.ui.business.detail.BusinessDetailFragment
+import sheridan.yamazaki.businessparagon.ui.chatbot.ChatbotActivity
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -31,6 +32,9 @@ class SettingsFragment : Fragment() {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
         binding.editProfile.setOnClickListener {
             startEditProfileFragment()
+        }
+        binding.talkToChatbot.setOnClickListener {
+            startChatbotActivity()
         }
         return binding.root
     }
@@ -64,6 +68,13 @@ class SettingsFragment : Fragment() {
     private fun startMainActivity(){
         requireActivity().run {
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+    }
+
+    private fun startChatbotActivity(){
+        requireActivity().run {
+            startActivity(Intent(this, ChatbotActivity::class.java))
             finish()
         }
     }

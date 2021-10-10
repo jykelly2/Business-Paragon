@@ -1,5 +1,6 @@
 package sheridan.yamazaki.businessparagon.ui.business.list
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -27,6 +28,7 @@ import sheridan.yamazaki.businessparagon.model.Business
 import sheridan.yamazaki.businessparagon.ui.business.checkout.CheckoutFragment
 import sheridan.yamazaki.businessparagon.ui.business.detail.BusinessDetailFragment
 import sheridan.yamazaki.businessparagon.ui.business.detail.BusinessDetailViewModel
+import sheridan.yamazaki.businessparagon.ui.chatbot.ChatbotActivity
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.text.contains as kotlinTextContains
@@ -55,7 +57,6 @@ class BusinessListFragment : Fragment() {
         currentUserId = auth.currentUser.uid
 
         if (currentUserId.isNotEmpty()){
-            Log.d("hereji", currentUserId)
             viewModel.returnShoppingCartSize(currentUserId)
         }
 
@@ -63,6 +64,10 @@ class BusinessListFragment : Fragment() {
             logAnalyticsEvent(it)
             startBusinessDetailFragment(it.id!!)
         })
+
+        binding.btnChatbot.setOnClickListener{
+            startChatbotActivity()
+        }
 
         binding.recyclerBusinesses.adapter = adapter
 
@@ -94,6 +99,22 @@ class BusinessListFragment : Fragment() {
             param("id", business.id.toString())
             param("category", business.category.toString())
             param("city", business.city.toString())
+        }
+    }
+
+    private fun logSearchAnalyticsEvent(business: Business){
+        firebaseAnalytics.logEvent("searched_business"){
+            param("name", business.name.toString())
+            param("id", business.id.toString())
+            param("city", business.city.toString())
+            param("category", business.category.toString())
+        }
+    }
+
+    private fun startChatbotActivity(){
+        requireActivity().run {
+            startActivity(Intent(this, ChatbotActivity::class.java))
+            finish()
         }
     }
 
@@ -134,6 +155,9 @@ class BusinessListFragment : Fragment() {
             searchView.queryHint = "Search for business.."
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
+                    if (displayList.size == 1) {
+                        logSearchAnalyticsEvent(displayList[0])
+                    }
                     return true
                 }
 
@@ -159,6 +183,7 @@ class BusinessListFragment : Fragment() {
                     }
                     return true
                 }
+
             })
         }
     }

@@ -17,6 +17,9 @@
     <color name="colorTextView">#83898E</color>
     <color name="colorCancelButton">#DCDCDC</color>
 
+    <color name="bg_bubble_self">#62caa6</color>
+    <color name="bg_bubble_watbot">#ecf0f1</color>
+
     <color name="colorDefault">#9e9e9e</color>
     <color name="colordarkblue">#00008b</color>
     <color name="colorwhiteblueshade">#DF949DCD</color>

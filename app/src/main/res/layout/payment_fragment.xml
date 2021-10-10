@@ -27,7 +27,7 @@
             <TextView
                 android:id="@+id/shoppingCart_Title"
                 style="@style/Theme.BusinessParagon.SectionTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="15dp"
@@ -129,7 +129,7 @@
             <TextView
                 android:id="@+id/checkout_Title"
                 style="@style/Theme.BusinessParagon.SectionTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="18dp"
@@ -190,7 +190,7 @@
             <TextView
                 android:id="@+id/payment_title"
                 style="@style/Theme.BusinessParagon.SectionTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="18dp"
@@ -242,7 +242,7 @@
             <TextView
                 android:id="@+id/country_text"
                 style="@style/Theme.BusinessParagon.Subheader"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="20dp"
@@ -271,7 +271,7 @@
             <TextView
                 android:id="@+id/full_name_text"
                 style="@style/Theme.BusinessParagon.Subheader"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="20dp"
@@ -300,7 +300,7 @@
             <TextView
                 android:id="@+id/phone_text"
                 style="@style/Theme.BusinessParagon.Subheader"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="20dp"
@@ -329,7 +329,7 @@
             <TextView
                 android:id="@+id/address_text"
                 style="@style/Theme.BusinessParagon.Subheader"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="20dp"
@@ -358,7 +358,7 @@
             <TextView
                 android:id="@+id/city_text"
                 style="@style/Theme.BusinessParagon.Subheader"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="20dp"
@@ -387,7 +387,7 @@
             <TextView
                 android:id="@+id/province_text"
                 style="@style/Theme.BusinessParagon.Subheader"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="20dp"
@@ -416,7 +416,7 @@
             <TextView
                 android:id="@+id/postal_code_text"
                 style="@style/Theme.BusinessParagon.Subheader"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="20dp"

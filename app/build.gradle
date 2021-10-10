@@ -61,6 +61,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.29.1-alpha"
     implementation 'com.google.firebase:firebase-firestore:21.4.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     kapt "com.google.dagger:hilt-android-compiler:2.29.1-alpha"
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
     kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
@@ -82,6 +83,17 @@ dependencies {
 
     /* coroutines support for firebase operations */
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
+
+    //IBM Watson
+    implementation 'com.ibm.watson:assistant:8.5.0'
+    implementation 'com.ibm.watson:text-to-speech:8.5.0'
+    implementation 'com.ibm.watson:speech-to-text:8.5.0'
+    implementation 'com.ibm.watson.developer_cloud:android-sdk:0.5.0'
+    //implementation 'com.google.code.gson:gson:2.8.0'
+//    implementation 'com.ibm.watson.developer_cloud:conversation:3.8.0'
+//    implementation 'com.ibm.watson.developer_cloud:text-to-speech:3.8.0'
+//    implementation 'com.ibm.watson.developer_cloud:speech-to-text:3.8.1-SNAPSHOT'
+//    implementation 'com.ibm.watson.developer_cloud:android-sdk:0.4.2'
 
     testImplementation 'junit:junit:4.13.1'
     testImplementation "androidx.arch.core:core-testing:2.1.0"

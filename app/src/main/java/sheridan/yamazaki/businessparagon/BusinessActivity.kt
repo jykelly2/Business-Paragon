@@ -1,6 +1,7 @@
 package sheridan.yamazaki.businessparagon
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,11 +17,15 @@ class BusinessActivity : AppCompatActivity(){ //, OnMapReadyCallback {
     private var savedView : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         if (savedInstanceState != null){
             savedView = savedInstanceState?.getString("savedView").toString()
         }
 
+        val fromChatbotView = intent?.getStringExtra("chatbot")
+
+        if (fromChatbotView != null){
+            savedView = fromChatbotView
+        }
         binding = ActivityBusinessBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

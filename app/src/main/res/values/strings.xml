@@ -2,6 +2,8 @@
     <string name="app_name">Business Paragon</string>
     <!-- validation error -->
     <string name="required">required</string>
+    <string name="what_s_on_your_mind">Enter your query</string>
+    <string name="menu_refresh">Refresh</string>
 
     <!-- Fragment names -->
     <string name="explore_fragment">Explore</string>

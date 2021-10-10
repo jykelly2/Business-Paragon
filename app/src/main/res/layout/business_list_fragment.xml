@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.business.list.BusinessListFragment">
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_Businesses"
             android:layout_width="match_parent"
@@ -21,5 +22,26 @@
             android:background="@color/white"
             app:layoutManager="LinearLayoutManager"
             tools:listitem="@layout/business_list_item" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_chatbot"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:scaleType="center"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:elevation="20dp"
+                app:useCompatPadding="true"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="10dp"
+                android:contentDescription="@string/add_favourite"
+                app:backgroundTint="@color/orange"
+                app:tint="@android:color/white"
+                app:srcCompat="@drawable/ic_baseline_android_24" />
+        </RelativeLayout>
+
     </FrameLayout>
 </layout>

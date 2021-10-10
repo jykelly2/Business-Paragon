@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.bumptech.glide.Glide
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -33,6 +35,7 @@ import java.util.*
 @AndroidEntryPoint
 class BusinessDetailFragment: Fragment() {
 
+    private val firebaseAnalytics = Firebase.analytics
     private lateinit var binding: BusinessDetailFragmentBinding
     private val viewModel: BusinessDetailViewModel by viewModels()
 
@@ -64,6 +67,7 @@ class BusinessDetailFragment: Fragment() {
 
         val adapter = ProductListAdapter(onClick ={
             startProductDetailFragment(it.id!!)
+            logAnalyticsEvent(businessId,it)
         })
          binding.recyclerProducts.adapter = adapter
 
@@ -95,15 +99,38 @@ class BusinessDetailFragment: Fragment() {
         }
 
         viewModel.layout.observe(viewLifecycleOwner) { layout ->
-            binding.recyclerProducts.setBackgroundColor(Color.parseColor(layout.backgroundColour))
+            val alignment = layout.alignment?.let { getAlignmentEnum(it) }
+
+            view?.setBackgroundColor(Color.parseColor(layout.backgroundColor))
+            if (alignment != null) {
+                binding.businessName.gravity = alignment
+               // binding.businessCityDivider.gravity = alignment
+                binding.businessCity.gravity = alignment
+               // binding.businessCategory.gravity = alignment
+                binding.featuredProducts.gravity = alignment
+            }
+
+            binding.recyclerProducts.setBackgroundColor(Color.parseColor(layout.backgroundColor))
+            binding.businessName.setTextColor(Color.parseColor(layout.titleTextColor))
+            //binding.businessCategory.setTextColor(Color.parseColor(layout.subtitleTextColor))
+            binding.businessCity.setTextColor(Color.parseColor(layout.subtitleTextColor))
+            binding.featuredProducts.setTextColor(Color.parseColor(layout.subtitleTextColor))
+            val normalFontStyle = layout.normalTextStyle?.let { getFontStyleEnum(it) }
+            val titleFontStyle = layout.titleTextStyle?.let { getFontStyleEnum(it) }
+            val subtitleFontStyle = layout.subtitleTextStyle?.let { getFontStyleEnum(it) }
+            binding.businessName.typeface = titleFontStyle?.let { Typeface.create(layout.titleTextFont, it) };
+           // binding.businessCategory.typeface = subtitleFontStyle?.let { Typeface.create(layout.normalTextFont, it) };
+            binding.businessCity.typeface = subtitleFontStyle?.let { Typeface.create(layout.subtitleTextFont, it) };
+            binding.featuredProducts.typeface = subtitleFontStyle?.let { Typeface.create(layout.subtitleTextFont, it) };
             for (product in binding.recyclerProducts){
-                product.product_card.setCardBackgroundColor(Color.parseColor(layout.itemBackgroundColor))
-                product.product_name.setTextColor(Color.parseColor(layout.productNameColor))
-                product.product_price.setTextColor(Color.parseColor(layout.productPriceColor))
-                product.product_card.layoutParams.height = layout.itemHeight?.toInt() ?: 100
-                product.product_card.layoutParams.width = layout.itemWidth?.toInt() ?: 100
-                layout.titleTextSize?.toFloat()?.let { product.product_name.textSize = it }
-                product.product_name.typeface = Typeface.create(layout.productNameFont, Typeface.BOLD);
+                product.product_card.setCardBackgroundColor(Color.parseColor(layout.foregroundColor))
+                product.product_name.setTextColor(Color.parseColor(layout.normalTextColor))
+                product.product_price.setTextColor(Color.parseColor(layout.normalTextColor))
+//                product.product_card.layoutParams.height = layout.itemHeight?.toInt() ?: 100
+//                product.product_card.layoutParams.width = layout.itemWidth?.toInt() ?: 100
+//                layout.titleTextSize?.toFloat()?.let { product.product_name.textSize = it }
+                product.product_name.typeface = normalFontStyle?.let { Typeface.create(layout.normalTextColor, it) };
+                product.product_price.typeface = normalFontStyle?.let { Typeface.create(layout.normalTextColor, it) };
             }
             //binding.recyclerProducts.product_card.setCardBackgroundColor(Color.parseColor(layout.itemBackgroundColor))
         }
@@ -112,7 +139,6 @@ class BusinessDetailFragment: Fragment() {
         return binding.root
     }
     private fun startProductDetailFragment(productId: String){
-        Log.d("id67",productId)
         val fragment = ProductDetailFragment()
         val bundle = Bundle()
         bundle.putString("businessName", binding.business?.name)
@@ -124,6 +150,34 @@ class BusinessDetailFragment: Fragment() {
             replace(R.id.fl_wrapper, fragment)
             commit()
         }
+    }
+
+    private fun logAnalyticsEvent(businessId: String, product: Product){
+        firebaseAnalytics.logEvent("selected_product"){
+            param("product_id", product.id.toString())
+            param("product_name", product.productName.toString())
+            param("business", businessId)
+        }
+    }
+
+    private fun getFontStyleEnum(textStyle: String): Int {
+        var fontStyle = 0
+        fontStyle = when (textStyle){
+            "normal" -> Typeface.NORMAL
+            "bold" -> Typeface.BOLD
+            else -> Typeface.ITALIC
+        }
+        return fontStyle
+    }
+
+    private fun getAlignmentEnum(alignment: String): Int {
+        var alignmentStyle = 0
+        alignmentStyle = when (alignment){
+            "right" -> Gravity.RIGHT
+            "left" -> Gravity.LEFT
+            else -> Gravity.CENTER
+        }
+        return alignmentStyle
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -47,7 +47,7 @@
         <TextView
             android:id="@+id/product_name"
             style="@style/Theme.BusinessParagon.SubTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="15dp"
@@ -59,7 +59,7 @@
         <TextView
             android:id="@+id/product_price"
             style="@style/Theme.BusinessParagon.SubTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="13dp"
@@ -71,7 +71,7 @@
         <TextView
             android:id="@+id/quantity_title"
             style="@style/Theme.BusinessParagon.Body1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="15dp"
@@ -113,7 +113,7 @@
         <TextView
             android:id="@+id/description"
             style="@style/Theme.BusinessParagon.SubTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="15dp"
@@ -125,7 +125,7 @@
         <TextView
             android:id="@+id/product_description"
             style="@style/Theme.BusinessParagon.Body1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"

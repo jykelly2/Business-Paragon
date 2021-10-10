@@ -48,6 +48,7 @@ class CheckoutListAdapter(
             }
 
             binding.totalItemPrice.text = "C$" + String.format("%.2f", (product.unitPrice?.times(product.quantity!!)))
+            binding.productPrice.text ="Unit Price: C$"+ String.format("%.2f", product.unitPrice)
             if (!payment) binding.deleteButton.setOnClickListener { onClick(position) }
             else binding.deleteButton.visibility = View.INVISIBLE
             binding.executePendingBindings()

@@ -3,29 +3,25 @@ package sheridan.yamazaki.businessparagon.ui.business.product
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.invalidateOptionsMenu
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.protobuf.LazyStringArrayList
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.cart_action_item.*
-import sheridan.yamazaki.businessparagon.MainActivity
 import sheridan.yamazaki.businessparagon.R
 import sheridan.yamazaki.businessparagon.databinding.ProductDetailFragmentBinding
 import sheridan.yamazaki.businessparagon.model.ShoppingCart
-import sheridan.yamazaki.businessparagon.ui.authentication.UserViewModel
 import sheridan.yamazaki.businessparagon.ui.business.checkout.CheckoutFragment
 import sheridan.yamazaki.businessparagon.ui.business.detail.BusinessDetailFragment
 
@@ -88,19 +84,60 @@ class ProductDetailFragment: Fragment() {
         }
 
         viewModel.layout.observe(viewLifecycleOwner) { layout ->
-            binding.layout = layout
+            //binding.layout = layout
             //product.product_card.setCardBackgroundColor(Color.parseColor(layout.itemBackgroundColor))
-            binding.productName.setTextColor(Color.parseColor(layout.productNameColor))
-            binding.productPrice.setTextColor(Color.parseColor(layout.productPriceColor))
+            view?.setBackgroundColor(Color.parseColor(layout.backgroundColor))
+            val normalFontStyle = layout.normalTextStyle?.let { getFontStyleEnum(it) }
+            val titleFontStyle = layout.titleTextStyle?.let { getFontStyleEnum(it) }
+            val subtitleFontStyle = layout.subtitleTextStyle?.let { getFontStyleEnum(it) }
+            val alignment = layout.alignment?.let { getAlignmentEnum(it) }
+
+            if (alignment != null) {
+                binding.productName.gravity = alignment
+                binding.productPrice.gravity = alignment
+                binding.quantityTitle.gravity = alignment
+                binding.description.gravity = alignment
+                binding.productDescription.gravity = alignment
+            }
+
+
+            binding.productName.setTextColor(Color.parseColor(layout.titleTextColor))
+            binding.productPrice.setTextColor(Color.parseColor(layout.subtitleTextColor))
+            binding.description.setTextColor(Color.parseColor(layout.subtitleTextColor))
+            binding.quantityTitle.setTextColor(Color.parseColor(layout.subtitleTextColor))
+            binding.productDescription.setTextColor(Color.parseColor(layout.normalTextColor))
+            binding.productName.typeface = titleFontStyle?.let { Typeface.create(layout.titleTextFont, it) };
+            binding.productPrice.typeface = subtitleFontStyle?.let { Typeface.create(layout.subtitleTextFont, it) };
+            binding.quantityTitle.typeface = subtitleFontStyle?.let { Typeface.create(layout.subtitleTextFont, it) };
+            binding.description.typeface = subtitleFontStyle?.let { Typeface.create(layout.subtitleTextFont, it) };
+            binding.productDescription.typeface = normalFontStyle?.let { Typeface.create(layout.normalTextFont, it) };
+            binding.addToCartButton.setBackgroundColor(Color.parseColor((layout.foregroundColor)))
             //product.product_card.layoutParams.height = layout.itemHeight?.toInt() ?: 100
             //product.product_card.layoutParams.width = layout.itemWidth?.toInt() ?: 100
             //layout.titleTextSize?.toFloat()?.let { binding.productName.textSize = it }
             //layout.titleTextSize?.toFloat()?.let { binding.productName.textSize = it }
-            binding.productName.typeface = Typeface.create(layout.productNameFont, Typeface.BOLD);
-            //binding.productPrice.typeface = Typeface.create(layout.productPriceFont, Typeface.BOLD);
         }
         binding.executePendingBindings()
         return binding.root
+    }
+    private fun getFontStyleEnum(textStyle: String): Int {
+        var fontStyle = 0
+        fontStyle = when (textStyle){
+            "normal" -> Typeface.NORMAL
+            "bold" -> Typeface.BOLD
+            else -> Typeface.ITALIC
+        }
+        return fontStyle
+    }
+
+    private fun getAlignmentEnum(alignment: String): Int {
+        var alignmentStyle = 0
+        alignmentStyle = when (alignment){
+            "right" -> Gravity.RIGHT
+            "left" -> Gravity.LEFT
+            else -> Gravity.CENTER
+        }
+        return alignmentStyle
     }
 
     private fun addToCart() {

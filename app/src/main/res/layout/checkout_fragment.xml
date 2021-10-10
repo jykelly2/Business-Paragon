@@ -47,7 +47,7 @@
             <TextView
                 android:id="@+id/shoppingCart_Title"
                 style="@style/Theme.BusinessParagon.SectionTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="15dp"
@@ -147,7 +147,7 @@
 
             <TextView
                 android:id="@+id/continue_shopping"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginStart="12dp"
@@ -159,7 +159,7 @@
             <TextView
                 android:id="@+id/checkout_Title"
                 style="@style/Theme.BusinessParagon.SectionTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="18dp"
@@ -170,7 +170,7 @@
 
             <TextView
                 android:id="@+id/email_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginStart="12dp"
@@ -178,6 +178,7 @@
                 android:layout_marginTop="6dp"
                 app:layout_constraintTop_toBottomOf="@+id/checkout_Title"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="#555"
                 android:text="Enter your email address. This address will be used to send you the order status updates."/>
 
@@ -199,7 +200,7 @@
                 android:id="@+id/checkbox_updates"
                 app:layout_constraintTop_toBottomOf="@+id/email"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="12dp"
@@ -225,7 +226,7 @@
             <TextView
                 android:id="@+id/next_step_title"
                 style="@style/Theme.BusinessParagon.SectionTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="18dp"
@@ -237,7 +238,7 @@
             <TextView
                 android:id="@+id/payment_info"
                 style="@style/Theme.BusinessParagon.Subheader"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginStart="12dp"
@@ -249,7 +250,7 @@
 
             <TextView
                 android:id="@+id/payment_info_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginStart="12dp"
@@ -257,13 +258,14 @@
                 android:layout_marginTop="3dp"
                 app:layout_constraintTop_toBottomOf="@+id/payment_info"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="#555"
                 android:text="Choose a payment method and enter your payment details inorder to process your orders "/>
 
             <TextView
                 android:id="@+id/order_info"
                 style="@style/Theme.BusinessParagon.Subheader"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginStart="12dp"
@@ -275,7 +277,7 @@
 
             <TextView
                 android:id="@+id/order_info_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginStart="12dp"
@@ -284,6 +286,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/order_info"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textColor="#555"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:text="Place your order and receive a confirmation email. This will record your order and ensure your order will be delivered."/>
 
             <TextView
