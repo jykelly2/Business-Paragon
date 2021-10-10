@@ -5,11 +5,12 @@ Buisiness Paragon is an eCommerce application that allows small local businesses
   * Secure authentication and authorization using Firebase Authentication
   * Firestore and Firebase Analytics integration to store and analyze customers and their mobile app usage
   * Design template generation and store layout customization using JavaScript and C#
+  * IBM Watson Assistance chatbot to assist answering user's questions
 
 ## Technologies:
 
 #### Android:
-* Kotlin, Andoird Studio, XML, Hilt, Firestore, FireAuth, Firebase Analytics 
+* Kotlin, Andoird Studio, XML, Hilt, Firestore, FireAuth, Firebase Analytics, IBM Watson
 
 #### Web:
 * .NET Framework, C#, JavaScript, HTML, CSS, Bootstrap
