@@ -30,7 +30,7 @@ import javax.inject.Inject
 
 
 class UserRepositoryImpl @Inject constructor(
-        private val application: Application
+       // private val application: Application
 ) : UserRepository {
 
     companion object {

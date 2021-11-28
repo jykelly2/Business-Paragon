@@ -7,19 +7,48 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sheridan.yamazaki.businessparagon.model.*
+//import sheridan.yamazaki.businessparagon.repository.AnalyticRepository
 import sheridan.yamazaki.businessparagon.repository.BusinessRepository
 import sheridan.yamazaki.businessparagon.repository.UserRepository
 
 class ProductDetailViewModel @ViewModelInject constructor(
-    private val repository: BusinessRepository,
-    private val userRepository: UserRepository
+        private val repository: BusinessRepository,
+        private val userRepository: UserRepository,
 ): ViewModel() {
+
+    private val businessId = MutableLiveData<String>()
+
+    val business: LiveData<Business> =
+            businessId.switchMap{ repository.getBusiness(it) }
+
+    fun loadData(id: String){
+        businessId.value = id
+    }
+
     var cartBusinessId = MutableLiveData<String>()
 
     fun returnCartBusinessId(userId: String)  {
         viewModelScope.launch(Dispatchers.IO){
             val businessId = userRepository.getCartBusinessId(userId)
             cartBusinessId.postValue(businessId.value)
+        }
+    }
+
+    var productAnalytic = MutableLiveData<ProductAnalytic>()
+
+    fun returnProductAnalytic()  {
+        viewModelScope.launch(Dispatchers.IO){
+            val data = repository.getProductAnalyticData()
+            productAnalytic.postValue(data.value)
+        }
+    }
+
+    var businessAnalytic = MutableLiveData<BusinessAnalytic>()
+
+    fun returnBusinessAnalytic()  {
+        viewModelScope.launch(Dispatchers.IO){
+            val data = repository.getBusinessAnalyticData()
+            businessAnalytic.postValue(data.value)
         }
     }
 

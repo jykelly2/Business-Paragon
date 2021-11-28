@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 
 class BusinessRepositoryImpl @Inject constructor(
-    private val application: Application
+    //private val application: Application
 ) : BusinessRepository {
 
     companion object {
@@ -29,8 +29,24 @@ class BusinessRepositoryImpl @Inject constructor(
 
     private val firestore = Firebase.firestore
     private val collection = firestore.collection("businesses")
+    private val analyticsCollection = firestore.collection("analytics")
     private val query = collection.orderBy("name", Query.Direction.ASCENDING)
             .limit(LIMIT.toLong())
+
+//    override fun getProductAnalyticData(): LiveData<List<ProductAnalytic>> {
+//        return FirestoreCollectionLiveData(analyticsCollection, ProductAnalytic::class.java)
+//    }
+    override suspend fun getProductAnalyticData(): LiveData<ProductAnalytic> {
+        val analytic = analyticsCollection.
+                whereEqualTo("analyticType", "product").limit(1).get().await().documents[0].toObject<ProductAnalytic>()
+        return MutableLiveData(analytic)
+    }
+
+    override suspend fun getBusinessAnalyticData(): LiveData<BusinessAnalytic> {
+        val analytic = analyticsCollection.
+        whereEqualTo("analyticType", "business").limit(1).get().await().documents[0].toObject<BusinessAnalytic>()
+        return MutableLiveData(analytic)
+    }
 
     override fun getAllBusiness(): LiveData<List<Business>> {
         return FirestoreCollectionLiveData(query, Business::class.java)

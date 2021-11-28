@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -211,19 +212,27 @@ class PaymentFragment: Fragment() {
     }
 
     private fun logAnalyticsEvent(){
-        val productNames = ArrayList<String>()
-        val productIds = ArrayList<String>()
+        var productNames = ""
+        var productIds = ""
         var price = 0.00
         for (item in displayList){
-            item.productName?.let { productNames.add(it)}
-            item.id?.let { productIds.add(it) }
+            item.productName?.let { productNames += "$it," }
+            item.id?.let { productIds += "$it," }
             price += item.unitPrice!!
         }
+
+        productNames = productNames.substring(0, productNames.length - 1);
+        productIds = productIds.substring(0, productIds.length - 1);
+
+//        Log.d("fireanali", productNames)
+//        Log.d("fireanali", productIds)
+//        Log.d("fireanali",price.toString())
+//        Log.d("fireanali",businessId)
         firebaseAnalytics.logEvent("purchased_products"){
-            param("ids", productIds.toString())
+            param("ids", productIds)
             param("business", businessId)
             param("price", price.toString())
-            param("products", productNames.toString())
+            param("products", productNames)
         }
     }
 

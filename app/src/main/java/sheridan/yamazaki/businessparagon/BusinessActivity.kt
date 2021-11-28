@@ -1,14 +1,13 @@
 package sheridan.yamazaki.businessparagon
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import sheridan.yamazaki.businessparagon.databinding.ActivityBusinessBinding
 import sheridan.yamazaki.businessparagon.ui.business.FavouritesFragment
-import sheridan.yamazaki.businessparagon.ui.business.location.NearMeFragment
 import sheridan.yamazaki.businessparagon.ui.business.SettingsFragment
+import sheridan.yamazaki.businessparagon.ui.business.analytic.AnalyticFragment
 import sheridan.yamazaki.businessparagon.ui.business.list.BusinessListFragment
 
 @AndroidEntryPoint
@@ -35,11 +34,12 @@ class BusinessActivity : AppCompatActivity(){ //, OnMapReadyCallback {
         val exploreFragment = BusinessListFragment()
         val favouritesFragment = FavouritesFragment()
         val settingsFragment = SettingsFragment()
-        val nearMeFragment = NearMeFragment()
+        //val nearMeFragment = NearMeFragment()
+        val analyticFragment = AnalyticFragment()
 
         when (savedView) {
-            "nearMe" -> {
-                makeCurrentFragment(nearMeFragment)
+            "analytic" -> {
+                makeCurrentFragment(analyticFragment)
             }
             "favourite" -> {
                 makeCurrentFragment(favouritesFragment)
@@ -60,9 +60,9 @@ class BusinessActivity : AppCompatActivity(){ //, OnMapReadyCallback {
                    savedView = "favourite"
                    makeCurrentFragment(favouritesFragment)
                }
-               R.id.nearMeFragment -> {
-                   savedView = "nearMe"
-                   makeCurrentFragment(nearMeFragment)
+               R.id.analyticFragment -> {
+                   savedView = "analytic"
+                   makeCurrentFragment(analyticFragment)
                }
                R.id.settingsFragment -> {
                    savedView = "settings"

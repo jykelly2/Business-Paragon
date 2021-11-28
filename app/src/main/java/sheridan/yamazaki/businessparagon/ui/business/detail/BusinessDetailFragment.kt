@@ -156,7 +156,7 @@ class BusinessDetailFragment: Fragment() {
         firebaseAnalytics.logEvent("selected_product"){
             param("product_id", product.id.toString())
             param("product_name", product.productName.toString())
-            param("business", businessId)
+            param("product_business", businessId)
         }
     }
 

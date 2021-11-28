@@ -27,11 +27,18 @@
         android:label="FavouriteFragment" >
     </fragment>
 
-    <fragment
-        android:id="@+id/nearMeFragment"
-        android:name="sheridan.yamazaki.businessparagon.ui.business.location.NearMeFragment"
-        android:label="NearMeFragment" >
-    </fragment>
+        <fragment
+            android:id="@+id/analyticFragment"
+            android:name="sheridan.yamazaki.businessparagon.ui.business.analytic.AnalyticFragment"
+            android:label="NearMeFragment" >
+        </fragment>
+
+
+    <!--    <fragment-->
+<!--        android:id="@+id/nearMeFragment"-->
+<!--        android:name="sheridan.yamazaki.businessparagon.ui.business.location.NearMeFragment"-->
+<!--        android:label="NearMeFragment" >-->
+<!--    </fragment>-->
 
     <fragment
         android:id="@+id/settingsFragment"

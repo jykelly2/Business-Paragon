@@ -15,4 +15,6 @@ interface BusinessRepository {
     suspend fun getBusinessCheckoutLayout(businessId: String, layoutName: String): LiveData<CheckoutLayout>
     suspend fun getBusinessProductDetailLayout(businessId: String, layoutName: String): LiveData<ProductDetailLayout>
     fun getBusinessProducts(businessId: String): LiveData<List<Product>>
+    suspend fun getProductAnalyticData(): LiveData<ProductAnalytic>
+    suspend fun getBusinessAnalyticData(): LiveData<BusinessAnalytic>
 }
