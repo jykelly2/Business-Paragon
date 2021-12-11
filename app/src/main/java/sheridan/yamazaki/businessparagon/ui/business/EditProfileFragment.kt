@@ -50,14 +50,18 @@ class EditProfileFragment : Fragment(){
         auth = Firebase.auth
         val currentUserId = auth.currentUser.uid
 
+        //get user data from the view model
         if (currentUserId.isNotEmpty()) {
             viewModel.loadData(currentUserId)
         }
+
+        //bind the user data to the view
         viewModel.user.observe(viewLifecycleOwner) { user ->
             binding.user = user
             viewModel.reauthenticateUser(user.email!!,user.password!!,requireActivity(),auth)
         }
 
+        //set images for text views
         binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         binding.username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_person_24, 0, 0, 0)
         binding.email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_email_24, 0, 0, 0)
@@ -65,6 +69,7 @@ class EditProfileFragment : Fragment(){
         binding.phoneNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_local_phone_24, 0, 0, 0)
         binding.address.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_home_24, 0, 0, 0)
 
+        //set text listener to the text views
         binding.username.addTextChangedListener(loginTextWatcher)
         binding.email.addTextChangedListener(loginTextWatcher)
         binding.password.addTextChangedListener(loginTextWatcher)
@@ -390,6 +395,7 @@ class EditProfileFragment : Fragment(){
         }
     }
 
+    //validate the input and update the profile
     private fun editClicked(){
         if (validateInput()) {
             val user = createUserObj()
@@ -413,6 +419,7 @@ class EditProfileFragment : Fragment(){
         }
     }
 
+    //validate that user inputs for all text fields are not empty
     fun validateInput(): Boolean{
         val mUsername: String = binding.username.text.toString().trim()
         val mEmail: String = binding.email.text.toString().trim()
@@ -422,6 +429,7 @@ class EditProfileFragment : Fragment(){
         return mUsername.isNotEmpty() && mEmail.isNotEmpty() && mPassword.isNotEmpty() && mPhoneNumber.isNotEmpty() && mAddress.isNotEmpty()
     }
 
+    //method to create user object
     private fun createUserObj(): User {
         val mUsername: String = binding.username.text.toString().trim()
         val mEmail: String = binding.email.text.toString().trim()

@@ -49,6 +49,7 @@ class SignUpFragment : Fragment(){
     ): View? {
         auth = Firebase.auth
 
+        //bind all the images for text views
         binding = FragmentSignupBinding.inflate(inflater, container, false)
         binding.username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_person_24, 0, 0, 0)
         binding.email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_email_24, 0, 0, 0)
@@ -56,6 +57,7 @@ class SignUpFragment : Fragment(){
         binding.phoneNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_local_phone_24, 0, 0, 0)
         binding.address.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_baseline_home_24, 0, 0, 0)
 
+        //add text change listner for text views
         binding.username.addTextChangedListener(loginTextWatcher)
         binding.email.addTextChangedListener(loginTextWatcher)
         binding.password.addTextChangedListener(loginTextWatcher)
@@ -401,6 +403,7 @@ class SignUpFragment : Fragment(){
         }
     }
 
+    //validate input and then sign up create account
     private fun signUpClicked(){
         if (validateInput()) {
             val user = createUserObj()

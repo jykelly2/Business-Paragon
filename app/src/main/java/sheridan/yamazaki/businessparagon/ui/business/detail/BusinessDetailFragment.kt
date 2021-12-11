@@ -40,7 +40,6 @@ class BusinessDetailFragment: Fragment() {
     private val viewModel: BusinessDetailViewModel by viewModels()
 
     private var businessId: String = ""
-    //private var businessName: String = ""
     private var cartBusinessId: String = ""
     private var currentUserId: String = ""
     private var cartQuantity: Int = 0
@@ -53,8 +52,9 @@ class BusinessDetailFragment: Fragment() {
 
         auth = Firebase.auth
         currentUserId = auth.currentUser.uid
-
         businessId = requireArguments().getString("id").toString()
+
+        //get business data and design layout as well as user shopping cart from the view model
         if (businessId.isNotEmpty()) {
             viewModel.loadData(businessId)
             viewModel.returnLayout(businessId, "detail")
@@ -65,6 +65,7 @@ class BusinessDetailFragment: Fragment() {
         }
         binding = BusinessDetailFragmentBinding.inflate(inflater, container, false)
 
+        //set product list adapter
         val adapter = ProductListAdapter(onClick ={
             startProductDetailFragment(it.id!!)
             logAnalyticsEvent(businessId,it)
@@ -75,10 +76,9 @@ class BusinessDetailFragment: Fragment() {
             adapter.submitList(product)
         }
 
+        //set the business and bind it to the view
         viewModel.business.observe(viewLifecycleOwner) { business ->
             binding.business = business
-          //  business.name?.let {   businessName = it }
-            //activity?.invalidateOptionsMenu()
             if (business.logo != ""){
                 Glide.with(binding.root)
                         .load(business.logo)
@@ -86,6 +86,8 @@ class BusinessDetailFragment: Fragment() {
             }else{
                 binding.businessLogo.setImageResource(R.drawable.ic_launcher_background)
             }
+            val toolbar = (requireActivity() as AppCompatActivity)
+            toolbar.title = business.name
         }
 
         viewModel.cartSize.observe(viewLifecycleOwner) { cartSize ->
@@ -98,46 +100,40 @@ class BusinessDetailFragment: Fragment() {
             cartBusinessId = businessId
         }
 
+        //set business detail design layout and change layout dynamically
         viewModel.layout.observe(viewLifecycleOwner) { layout ->
             val alignment = layout.alignment?.let { getAlignmentEnum(it) }
 
             view?.setBackgroundColor(Color.parseColor(layout.backgroundColor))
             if (alignment != null) {
                 binding.businessName.gravity = alignment
-               // binding.businessCityDivider.gravity = alignment
                 binding.businessCity.gravity = alignment
-               // binding.businessCategory.gravity = alignment
                 binding.featuredProducts.gravity = alignment
             }
 
             binding.recyclerProducts.setBackgroundColor(Color.parseColor(layout.backgroundColor))
-            binding.businessName.setTextColor(Color.parseColor(layout.titleTextColor))
-            //binding.businessCategory.setTextColor(Color.parseColor(layout.subtitleTextColor))
-            binding.businessCity.setTextColor(Color.parseColor(layout.subtitleTextColor))
+            binding.businessName.setTextColor(Color.parseColor("#FFFFFF"))//layout.titleTextColor))
+            binding.businessCity.setTextColor(Color.parseColor(("#FFFFFF")))//layout.subtitleTextColor))
             binding.featuredProducts.setTextColor(Color.parseColor(layout.subtitleTextColor))
             val normalFontStyle = layout.normalTextStyle?.let { getFontStyleEnum(it) }
             val titleFontStyle = layout.titleTextStyle?.let { getFontStyleEnum(it) }
             val subtitleFontStyle = layout.subtitleTextStyle?.let { getFontStyleEnum(it) }
             binding.businessName.typeface = titleFontStyle?.let { Typeface.create(layout.titleTextFont, it) };
-           // binding.businessCategory.typeface = subtitleFontStyle?.let { Typeface.create(layout.normalTextFont, it) };
             binding.businessCity.typeface = subtitleFontStyle?.let { Typeface.create(layout.subtitleTextFont, it) };
             binding.featuredProducts.typeface = subtitleFontStyle?.let { Typeface.create(layout.subtitleTextFont, it) };
             for (product in binding.recyclerProducts){
                 product.product_card.setCardBackgroundColor(Color.parseColor(layout.foregroundColor))
                 product.product_name.setTextColor(Color.parseColor(layout.normalTextColor))
                 product.product_price.setTextColor(Color.parseColor(layout.normalTextColor))
-//                product.product_card.layoutParams.height = layout.itemHeight?.toInt() ?: 100
-//                product.product_card.layoutParams.width = layout.itemWidth?.toInt() ?: 100
-//                layout.titleTextSize?.toFloat()?.let { product.product_name.textSize = it }
                 product.product_name.typeface = normalFontStyle?.let { Typeface.create(layout.normalTextColor, it) };
                 product.product_price.typeface = normalFontStyle?.let { Typeface.create(layout.normalTextColor, it) };
             }
-            //binding.recyclerProducts.product_card.setCardBackgroundColor(Color.parseColor(layout.itemBackgroundColor))
         }
 
         binding.executePendingBindings()
         return binding.root
     }
+
     private fun startProductDetailFragment(productId: String){
         val fragment = ProductDetailFragment()
         val bundle = Bundle()
@@ -192,41 +188,6 @@ class BusinessDetailFragment: Fragment() {
         actionView.setOnClickListener {
             onOptionsItemSelected(cartMenuItem)
         }
-
-//        val menuItem = menu!!.findItem(R.id.menu_search)
-//        if (menuItem != null){
-//            val searchView = menuItem.actionView as SearchView
-//
-//            searchView.queryHint = "Search for business.."
-//            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//                override fun onQueryTextSubmit(query: String): Boolean {
-//                    return true
-//                }
-//
-//                override fun onQueryTextChange(newText: String?): Boolean {
-//                    if (newText!!.isNotEmpty()) {
-//                        displayList.clear()
-//                        val search = newText.toLowerCase(Locale.getDefault())
-//
-//                        items.forEach {
-//                            if (it.name?.toLowerCase(Locale.getDefault())?.kotlinTextContains(search)!!) {
-//                                displayList.add(it)
-//                            }
-//                            /* displayList.forEach{
-//                                 Log.d("herere", it.name!!)
-//                             }*/
-//                            binding.recyclerBusinesses.adapter?.notifyDataSetChanged()
-//                        }
-//
-//                    } else {
-//                        displayList.clear()
-//                        displayList.addAll(items)
-//                        binding.recyclerBusinesses.adapter?.notifyDataSetChanged()
-//                    }
-//                    return true
-//                }
-//            })
-//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -235,7 +196,7 @@ class BusinessDetailFragment: Fragment() {
         toolbar.supportActionBar?.show()
         toolbar.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setHasOptionsMenu(true)
-        toolbar.title = "Business Paragon" //if (businessName.isNotEmpty()) businessName else "Business Paragon" ;
+        toolbar.title = "Business Paragon"
     }
     override fun onDestroyView() {
         val toolbar = (requireActivity() as AppCompatActivity)

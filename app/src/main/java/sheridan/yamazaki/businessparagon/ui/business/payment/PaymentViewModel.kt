@@ -15,6 +15,16 @@ class PaymentViewModel @ViewModelInject constructor(
         private val repository: BusinessRepository,
         private val userRepository: UserRepository
 ): ViewModel() {
+
+    private val businessId = MutableLiveData<String>()
+
+    val business: LiveData<Business> =
+            businessId.switchMap{ repository.getBusiness(it) }
+
+    fun loadData(id: String){
+        businessId.value = id
+    }
+
     private val userId = MutableLiveData<String>()
     val user: LiveData<User> =  userId.switchMap{ userRepository.getUser(it) }
     fun loadUserData(id: String){
@@ -24,6 +34,12 @@ class PaymentViewModel @ViewModelInject constructor(
     fun updateUser(user: User){
         viewModelScope.launch(Dispatchers.IO){
             userRepository.updateUserBillingInfo(user)
+        }
+    }
+
+    fun updateBusinessProductStock(businessId: String, product:Product, quantity:Int){
+        viewModelScope.launch(Dispatchers.IO){
+            repository.updateBusinessProductStockData(businessId,product,quantity)
         }
     }
 

@@ -1,13 +1,11 @@
 package sheridan.yamazaki.businessparagon.ui.business.list
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sheridan.yamazaki.businessparagon.model.Business
+import sheridan.yamazaki.businessparagon.model.User
 import sheridan.yamazaki.businessparagon.repository.BusinessRepository
 import sheridan.yamazaki.businessparagon.repository.UserRepository
 
@@ -16,6 +14,11 @@ class BusinessListViewModel @ViewModelInject constructor(
         private val userRepository: UserRepository
 ): ViewModel() {
     val businesses: LiveData<List<Business>> = repository.getAllBusiness()
+    private val userId = MutableLiveData<String>()
+    val user: LiveData<User> =  userId.switchMap{ userRepository.getUser(it) }
+    fun loadUserData(id: String){
+        userId.value = id
+    }
 
     var cartSize = MutableLiveData<Int>()
 

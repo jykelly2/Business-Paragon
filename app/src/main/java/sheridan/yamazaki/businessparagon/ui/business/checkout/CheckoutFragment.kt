@@ -48,8 +48,10 @@ class CheckoutFragment: Fragment() {
             requireArguments().getString("email").toString()
         }else auth.currentUser.email.toString()
 
+        //get business layout and user shopping cart from the view model
         if (businessId.isNotEmpty()) {
             viewModel.returnLayout(businessId, "checkout")
+            viewModel.loadData(businessId)
         }
 
         if (currentUserId.isNotEmpty()){
@@ -75,16 +77,16 @@ class CheckoutFragment: Fragment() {
         binding.continueShopping.setText(spannableString, TextView.BufferType.SPANNABLE)
         binding.continueShopping.movementMethod = LinkMovementMethod.getInstance()
 
+        //set checkout product list adapter and have remove functionality click
         val adapter = CheckoutListAdapter(displayList, false, onClick = {
-             Log.d("producti", displayList[it].productName.toString())
             displayList[it].shoppingCartId?.let { it1 -> viewModel.removeFromUserShoppingCart(currentUserId, it1) }
             updateList(it)
         })
 
         binding.recyclerCheckout.adapter = adapter
 
+        //set checkout product list on the view
         viewModel.products.observe(viewLifecycleOwner) { products ->
-            Log.d("checkouti", products.size.toString())
             adapter.submitList(products)
             adapter.products.addAll(products)
             var subtotal = 0.00
@@ -94,6 +96,12 @@ class CheckoutFragment: Fragment() {
             updatePrice(subtotal)
         }
 
+        viewModel.business.observe(viewLifecycleOwner) { business ->
+            val toolbar = (requireActivity() as AppCompatActivity)
+            toolbar.title = business.name
+        }
+
+        //set checkout design layout and change layout dynamically
         viewModel.layout.observe(viewLifecycleOwner) { layout ->
             view?.setBackgroundColor(Color.parseColor(layout.backgroundColor))
             val normalFontStyle = layout.normalTextStyle?.let { getFontStyleEnum(it) }
@@ -150,11 +158,6 @@ class CheckoutFragment: Fragment() {
             binding.orderInfo.typeface = subtitleFontStyle?.let { Typeface.create(layout.subtitleTextFont, it) };
             binding.orderInfoText.typeface = normalFontStyle?.let { Typeface.create(layout.normalTextFont, it) };
             binding.paymentButton.setBackgroundColor(Color.parseColor(layout.foregroundColor))
-            //product.product_card.setCardBackgroundColor(Color.parseColor(layout.itemBackgroundColor))
-            //product.product_card.layoutParams.height = layout.itemHeight?.toInt() ?: 100
-            //product.product_card.layoutParams.width = layout.itemWidth?.toInt() ?: 100
-            //layout.titleTextSize?.toFloat()?.let { binding.productName.textSize = it }
-            //layout.titleTextSize?.toFloat()?.let { binding.productName.textSize = it }
 
         }
         binding.executePendingBindings()
@@ -197,6 +200,7 @@ class CheckoutFragment: Fragment() {
         binding.total.text = "C$" + String.format("%.2f", total)
     }
 
+    //proceed to payment once email is filled
     private fun proceedToPayment() {
         if(binding.email.text.toString().isEmpty()){
             Toast.makeText(

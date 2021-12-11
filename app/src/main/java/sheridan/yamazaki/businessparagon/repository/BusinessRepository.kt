@@ -17,4 +17,5 @@ interface BusinessRepository {
     fun getBusinessProducts(businessId: String): LiveData<List<Product>>
     suspend fun getProductAnalyticData(): LiveData<ProductAnalytic>
     suspend fun getBusinessAnalyticData(): LiveData<BusinessAnalytic>
+    suspend fun updateBusinessProductStockData(businessId: String, product: Product, quantity: Int)
 }

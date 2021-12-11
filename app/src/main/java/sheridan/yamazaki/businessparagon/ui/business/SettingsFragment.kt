@@ -72,6 +72,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    //navigate to the chat bot activity
     private fun startChatbotActivity(){
         requireActivity().run {
             startActivity(Intent(this, ChatbotActivity::class.java))
@@ -79,6 +80,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    //navigate to the edit profile fragment
     private fun startEditProfileFragment(){
         val fragment = EditProfileFragment()
         activity?.supportFragmentManager?.beginTransaction()?.apply {

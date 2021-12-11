@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.business_list_fragment.*
 import sheridan.yamazaki.businessparagon.R
 import sheridan.yamazaki.businessparagon.databinding.BusinessListFragmentBinding
 import sheridan.yamazaki.businessparagon.model.Business
+import sheridan.yamazaki.businessparagon.model.User
 import sheridan.yamazaki.businessparagon.ui.business.checkout.CheckoutFragment
 import sheridan.yamazaki.businessparagon.ui.business.detail.BusinessDetailFragment
 import sheridan.yamazaki.businessparagon.ui.business.detail.BusinessDetailViewModel
@@ -43,6 +44,7 @@ class BusinessListFragment : Fragment() {
     private var cartQuantity: Int = 0
     private var currentUserId: String = ""
     private lateinit var auth: FirebaseAuth
+    private var currentUser: User? = null
 
     var items = ArrayList<Business>()
     val displayList = ArrayList<Business>()
@@ -56,10 +58,13 @@ class BusinessListFragment : Fragment() {
         auth = Firebase.auth
         currentUserId = auth.currentUser.uid
 
+        //get user's shopping cart and businesses from the view model
         if (currentUserId.isNotEmpty()){
+            viewModel.loadUserData(currentUserId)
             viewModel.returnShoppingCartSize(currentUserId)
         }
 
+        //set business list adapter and onclick on selected business
         val adapter = BusinessListAdapter(displayList, onClick = {
             logAnalyticsEvent(it)
             startBusinessDetailFragment(it.id!!)
@@ -71,12 +76,25 @@ class BusinessListFragment : Fragment() {
 
         binding.recyclerBusinesses.adapter = adapter
 
+        viewModel.user.observe(viewLifecycleOwner) { user ->
+            currentUser = user
+        }
+
+        //bind business lists to the view (list adapter)
        viewModel.businesses.observe(viewLifecycleOwner){
-           adapter?.submitList(it)
-           adapter.businesses.removeAll(it)
-           adapter.businesses.addAll(it)
-           items.removeAll(it)
-           items.addAll(it)
+           val preferenceList = ArrayList<Business>()
+           for (business in it){
+               if (business.city?.toLowerCase()  == currentUser?.city?.toLowerCase()){
+                   preferenceList.add(business)
+               }
+           }
+
+           adapter?.submitList(preferenceList)
+           adapter.businesses.removeAll(preferenceList)
+           adapter.businesses.addAll(preferenceList)
+
+           items.removeAll(preferenceList)
+           items.addAll(preferenceList)
         }
 
         viewModel.cartSize.observe(viewLifecycleOwner) { cartSize ->
@@ -135,6 +153,7 @@ class BusinessListFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
+    //have the search filter out the business list depending on the search text
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.search_menu, menu)
@@ -170,9 +189,6 @@ class BusinessListFragment : Fragment() {
                             if (it.name?.toLowerCase(Locale.getDefault())?.kotlinTextContains(search)!!) {
                                 displayList.add(it)
                             }
-                           /* displayList.forEach{
-                                Log.d("herere", it.name!!)
-                            }*/
                             binding.recyclerBusinesses.adapter?.notifyDataSetChanged()
                         }
 

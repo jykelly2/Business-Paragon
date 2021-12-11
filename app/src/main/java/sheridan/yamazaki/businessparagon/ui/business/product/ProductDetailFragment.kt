@@ -48,6 +48,7 @@ class ProductDetailFragment: Fragment() {
         auth = Firebase.auth
         currentUserId = auth.currentUser.uid
 
+        //get product and design layout as well as user's shopping cart from view model
         if (businessId.isNotEmpty() && productId.isNotEmpty()) {
             viewModel.returnProduct(businessId, productId)
             viewModel.returnLayout(businessId, "productdetail")
@@ -61,6 +62,7 @@ class ProductDetailFragment: Fragment() {
 
         binding.addToCartButton.setOnClickListener { addToCart() }
 
+        //bind the product to the view
         viewModel.product.observe(viewLifecycleOwner) { product ->
             binding.product = product
             if (product.picture != ""){
@@ -83,9 +85,8 @@ class ProductDetailFragment: Fragment() {
             cartBusinessId = businessId
         }
 
+        //set product detail design layout and change layout dynamically
         viewModel.layout.observe(viewLifecycleOwner) { layout ->
-            //binding.layout = layout
-            //product.product_card.setCardBackgroundColor(Color.parseColor(layout.itemBackgroundColor))
             view?.setBackgroundColor(Color.parseColor(layout.backgroundColor))
             val normalFontStyle = layout.normalTextStyle?.let { getFontStyleEnum(it) }
             val titleFontStyle = layout.titleTextStyle?.let { getFontStyleEnum(it) }
@@ -100,7 +101,6 @@ class ProductDetailFragment: Fragment() {
                 binding.productDescription.gravity = alignment
             }
 
-
             binding.productName.setTextColor(Color.parseColor(layout.titleTextColor))
             binding.productPrice.setTextColor(Color.parseColor(layout.subtitleTextColor))
             binding.description.setTextColor(Color.parseColor(layout.subtitleTextColor))
@@ -112,11 +112,9 @@ class ProductDetailFragment: Fragment() {
             binding.description.typeface = subtitleFontStyle?.let { Typeface.create(layout.subtitleTextFont, it) };
             binding.productDescription.typeface = normalFontStyle?.let { Typeface.create(layout.normalTextFont, it) };
             binding.addToCartButton.setBackgroundColor(Color.parseColor((layout.foregroundColor)))
-            //product.product_card.layoutParams.height = layout.itemHeight?.toInt() ?: 100
-            //product.product_card.layoutParams.width = layout.itemWidth?.toInt() ?: 100
-            //layout.titleTextSize?.toFloat()?.let { binding.productName.textSize = it }
-            //layout.titleTextSize?.toFloat()?.let { binding.productName.textSize = it }
+
         }
+
         binding.executePendingBindings()
         return binding.root
     }
@@ -140,8 +138,9 @@ class ProductDetailFragment: Fragment() {
         return alignmentStyle
     }
 
+    //add selected to product to the user's shopping cart
+    //check if the user's shopping cart has products from another business
     private fun addToCart() {
-        Log.d("carbusiid", "$businessId, $cartBusinessId")
         if (businessId.trim().toString() != cartBusinessId.trim().toString() && cartBusinessId != ""){
             Toast.makeText(
                     activity,

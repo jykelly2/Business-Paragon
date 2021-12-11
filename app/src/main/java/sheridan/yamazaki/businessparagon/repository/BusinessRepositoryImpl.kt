@@ -48,6 +48,18 @@ class BusinessRepositoryImpl @Inject constructor(
         return MutableLiveData(analytic)
     }
 
+    override suspend fun updateBusinessProductStockData(businessId: String, product: Product, quantity: Int) {
+        try {
+            product.unitsInStock = product.unitsInStock?.minus(quantity)
+            product.id?.let {
+                collection.document(businessId).collection("products").document(it)
+                    .set(product)
+            }
+        }catch (e: Exception){
+            Log.d(TAG, "update: ${e.message}")
+        }
+    }
+
     override fun getAllBusiness(): LiveData<List<Business>> {
         return FirestoreCollectionLiveData(query, Business::class.java)
     }
@@ -99,9 +111,9 @@ class BusinessRepositoryImpl @Inject constructor(
     }
 
     override fun getBusinessProducts(id: String): LiveData<List<Product>> {
-        val products = collection.document(id).collection("products")
-                .orderBy("productName", Query.Direction.ASCENDING)
+        val products = collection.document(id).collection("products").whereGreaterThan("unitsInStock" , 0)
                 .limit(LIMIT.toLong())
+               // .orderBy("productName", Query.Direction.ASCENDING)
         //.whereEqualTo("productAvailable", true)
         return FirestoreCollectionLiveData(products, Product::class.java)
     }

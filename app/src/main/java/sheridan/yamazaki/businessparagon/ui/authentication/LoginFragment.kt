@@ -50,10 +50,11 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         auth = Firebase.auth
-
         navController = findNavController()
-
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+
+        //set email and password images for text view
         binding.email.setCompoundDrawablesRelativeWithIntrinsicBounds(
             R.drawable.ic_baseline_email_24,
             0,
@@ -67,6 +68,7 @@ class LoginFragment : Fragment() {
             0
         )
 
+        //add text change listner for text views
         binding.email.addTextChangedListener(loginTextWatcher)
         binding.password.addTextChangedListener(loginTextWatcher)
 
@@ -79,6 +81,8 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_login_to_signUp)
             }
         }
+
+        //set click event for sign up text
         spannableString.setSpan(signUpClickableSpan, 23, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.signUp.setText(spannableString, TextView.BufferType.SPANNABLE)
         binding.signUp.movementMethod = LinkMovementMethod.getInstance()
@@ -279,6 +283,7 @@ class LoginFragment : Fragment() {
         }
     }
 
+    //sign in the user
     private fun loginClicked() {
         val email = binding.email.text.toString().trim()
         val password = binding.password.text.toString().trim()
@@ -286,12 +291,14 @@ class LoginFragment : Fragment() {
         logAnalyticsEvent()
     }
 
+    //validate user's text field inputs
     fun validateInput(): Boolean{
         val mEmail: String = binding.email.text.toString().trim()
         val mPassword: String = binding.password.text.toString().trim()
         return  mEmail.isNotEmpty() && mPassword.isNotEmpty()
     }
 
+    //check if user is currently logged in. If it is go to business activity
     override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
@@ -307,12 +314,14 @@ class LoginFragment : Fragment() {
         }
     }
 
+    //add login method analytics
     private fun logAnalyticsEvent(){
         val bundle = Bundle()
         bundle.putString(FirebaseAnalytics.Param.METHOD, "login_in_method")
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle)
     }
 
+    //start business activity
     private fun startBusinessActivity(){
         requireActivity().run {
             startActivity(Intent(this, BusinessActivity::class.java))

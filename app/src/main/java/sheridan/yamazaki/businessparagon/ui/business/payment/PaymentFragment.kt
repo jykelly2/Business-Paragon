@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.auth.FirebaseAuth
@@ -48,7 +49,9 @@ class PaymentFragment: Fragment() {
         businessId = requireArguments().getString("id").toString()
         val userEmail = requireArguments().getString("email").toString()
 
+        // get payment layout, user's shopping cart as well as user's information from view model
         if (businessId.isNotEmpty()) {
+            viewModel.loadData(businessId)
             viewModel.returnLayout(businessId, "payment")
         }
 
@@ -62,7 +65,6 @@ class PaymentFragment: Fragment() {
         binding.email.text = userEmail
         binding.orderButton.setOnClickListener {
             placeOrder()
-            logAnalyticsEvent()
         }
         binding.emailChangeText.setOnClickListener { returnToCheckoutView() }
 
@@ -70,8 +72,14 @@ class PaymentFragment: Fragment() {
 
         binding.recyclerPayment.adapter = adapter
 
+        //bind user and also products to the view
         viewModel.user.observe(viewLifecycleOwner) { user ->
             binding.user = user
+        }
+
+        viewModel.business.observe(viewLifecycleOwner) { business ->
+            val toolbar = (requireActivity() as AppCompatActivity)
+            toolbar.title = business.name
         }
 
         viewModel.products.observe(viewLifecycleOwner) { products ->
@@ -84,8 +92,8 @@ class PaymentFragment: Fragment() {
             updatePrice(subtotal)
         }
 
+        //set payment design layout and change layout dynamically
         viewModel.layout.observe(viewLifecycleOwner) { layout ->
-            //binding.layout = layout
             view?.setBackgroundColor(Color.parseColor(layout.backgroundColor))
             val normalFontStyle = layout.normalTextStyle?.let { getFontStyleEnum(it) }
             val titleFontStyle = layout.titleTextStyle?.let { getFontStyleEnum(it) }
@@ -95,7 +103,6 @@ class PaymentFragment: Fragment() {
             if (alignment != null) {
                 binding.shoppingCartTitle.gravity = alignment
                 binding.checkoutTitle.gravity = alignment
-              //  binding.checkImage.foregroundGravity = alignment
                 binding.exclamationImage.foregroundGravity = alignment
                 binding.paymentTitle.gravity = alignment
                 binding.countryText.gravity = alignment
@@ -113,20 +120,6 @@ class PaymentFragment: Fragment() {
                 binding.postalCodeText.gravity = alignment
                 binding.postalCode.gravity = alignment
             }
-
-//            val layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
-//            if (alignment != null) {
-//                layoutParams.leftMargin = 50
-//                layoutParams.width = 130
-//                layoutParams.height = 130
-// //               layoutParams.startToEnd = alignment
-//                layoutParams.startToEnd = view?.id?.plus(100) ?: 50
-//               layoutParams.topToBottom = binding.checkoutTitle.id
-//            }
-////            binding.checkImage.layoutParams.width = 100
-////            binding.checkImage.layoutParams.height = 100
-//            binding.checkImage.layoutParams = layoutParams
-
 
             binding.shoppingCartTitle.setTextColor(Color.parseColor(layout.titleTextColor))
             binding.subtotalTitle.setTextColor(Color.parseColor(layout.subtitleTextColor))
@@ -186,17 +179,8 @@ class PaymentFragment: Fragment() {
             binding.postalCodeText.typeface = subtitleFontStyle?.let { Typeface.create(layout.subtitleTextFont, it) };
             binding.postalCode.typeface = normalFontStyle?.let { Typeface.create(layout.normalTextFont, it) };
             binding.orderButton.typeface = subtitleFontStyle?.let { Typeface.create(layout.subtitleTextFont, it) };
-           // binding.layout = layout
-            //product.product_card.setCardBackgroundColor(Color.parseColor(layout.itemBackgroundColor))
-            // binding.productName.setTextColor(Color.parseColor(layout.productNameColor))
-            //binding.productPrice.setTextColor(Color.parseColor(layout.productPriceColor))
-            //product.product_card.layoutParams.height = layout.itemHeight?.toInt() ?: 100
-            //product.product_card.layoutParams.width = layout.itemWidth?.toInt() ?: 100
-            //layout.titleTextSize?.toFloat()?.let { binding.productName.textSize = it }
-            //layout.titleTextSize?.toFloat()?.let { binding.productName.textSize = it }
-            // binding.productName.typeface = Typeface.create(layout.productNameFont, Typeface.BOLD);
-            //binding.productPrice.typeface = Typeface.create(layout.productPriceFont, Typeface.BOLD);
         }
+
         binding.executePendingBindings()
         return binding.root
     }
@@ -211,6 +195,7 @@ class PaymentFragment: Fragment() {
         return fontStyle
     }
 
+    //log analytic event for purchased products
     private fun logAnalyticsEvent(){
         var productNames = ""
         var productIds = ""
@@ -219,15 +204,12 @@ class PaymentFragment: Fragment() {
             item.productName?.let { productNames += "$it," }
             item.id?.let { productIds += "$it," }
             price += item.unitPrice!!
+            item.quantity?.let { viewModel.updateBusinessProductStock(businessId, item, it) }
         }
 
         productNames = productNames.substring(0, productNames.length - 1);
         productIds = productIds.substring(0, productIds.length - 1);
 
-//        Log.d("fireanali", productNames)
-//        Log.d("fireanali", productIds)
-//        Log.d("fireanali",price.toString())
-//        Log.d("fireanali",businessId)
         firebaseAnalytics.logEvent("purchased_products"){
             param("ids", productIds)
             param("business", businessId)
@@ -254,6 +236,7 @@ class PaymentFragment: Fragment() {
         binding.total.text = "C$" + String.format("%.2f", total)
     }
 
+    //check if all order information is filled out and place order
     private fun placeOrder() {
         if(!validateInput()){
             Toast.makeText(
@@ -263,6 +246,7 @@ class PaymentFragment: Fragment() {
             ).show()
         }
         else{
+            logAnalyticsEvent()
             val user = createUserObj()
             viewModel.updateUser(user)
             val shoppingCarts = ArrayList<String>()
@@ -280,10 +264,6 @@ class PaymentFragment: Fragment() {
                 replace(R.id.fl_wrapper, fragment)
                 commit()
             } }, 2000)
-//            activity?.supportFragmentManager?.beginTransaction()?.apply {
-//                replace(R.id.fl_wrapper, fragment)
-//                commit()
-//            }
         }
     }
 

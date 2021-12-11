@@ -28,13 +28,9 @@ class BusinessActivity : AppCompatActivity(){ //, OnMapReadyCallback {
         binding = ActivityBusinessBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
-        //mapFragment?.getMapAsync(this)
-
         val exploreFragment = BusinessListFragment()
         val favouritesFragment = FavouritesFragment()
         val settingsFragment = SettingsFragment()
-        //val nearMeFragment = NearMeFragment()
         val analyticFragment = AnalyticFragment()
 
         when (savedView) {
@@ -86,51 +82,8 @@ class BusinessActivity : AppCompatActivity(){ //, OnMapReadyCallback {
         outState?.putString("savedView", savedView)
     }
 
-    /*override fun onMapReady(googleMap: GoogleMap?) {
-        Log.d("locatins", "location")
-        googleMap?.apply {
-            val sydney = LatLng(-33.852, 151.211)
-            addMarker(
-                MarkerOptions()
-                    .position(sydney)
-                    .title("Marker in Sydney")
-            )
-            addMarker(
-                MarkerOptions()
-                    .position(LatLng(37.7750, 122.4183))
-                    .title("San Francisco")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-            )
-            moveCamera(CameraUpdateFactory.newLatLng(sydney))
-        }
-    }*/
 }
-/*  val navHostFragment =
-       supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-   navController = navHostFragment.navController
-   appBarConfiguration = AppBarConfiguration(navController.graph)
-   setupActionBarWithNavController(navController, appBarConfiguration)*/
-
-/* val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
- val navController = findNavController(R.id.fragment)
-
- bottomNavigationView.setupWithNavController(navController)*/
-
-/* override fun onSupportNavigateUp(): Boolean {
-      val navController = findNavController(R.id.nav_host_fragment)
-      return navController.navigateUp(appBarConfiguration)
-              || super.onSupportNavigateUp()
-  }*/
 
 
 
-/*override fun onCreateOptionsMenu(menu: Menu): Boolean {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    super.onCreateOptionsMenu(menu)
-    menuInflater.inflate(R.menu.search_menu, menu)
-    return true
-}
-private fun navigate (name : String) {
-    findNavController(R.id.businessListFragment).navigate(R.id.action_businessActivity_to_businessListFragment)
 
-}*/

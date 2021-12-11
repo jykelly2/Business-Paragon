@@ -17,6 +17,7 @@ import sheridan.yamazaki.businessparagon.ui.business.product.ProductDetailViewMo
 
 @AndroidEntryPoint
 class AnalyticFragment : Fragment(){
+
     private lateinit var binding: AnalyticFragmentBinding
     private var topBusinessId: String = ""
     private var topProductBusinessId: String = ""
@@ -29,6 +30,7 @@ class AnalyticFragment : Fragment(){
     ): View? {
         binding = AnalyticFragmentBinding.inflate(inflater, container, false)
 
+        //top product and business click function
         binding.topProductCard.setOnClickListener{
             startProductDetailFragment(topProductBusinessId, topProductId)
         }
@@ -37,9 +39,12 @@ class AnalyticFragment : Fragment(){
             startBusinessDetailFragment(topBusinessId)
         }
 
+        //get top product and business from the view model
         viewModel.returnProductAnalytic()
         viewModel.returnBusinessAnalytic()
 
+
+        // get top product and business and bind it to the view
         viewModel.productAnalytic.observe(viewLifecycleOwner) { productAnalytics ->
             productAnalytics.business?.let { productAnalytics.id?.let { it1 -> viewModel.returnProduct(it, it1) } }
 
